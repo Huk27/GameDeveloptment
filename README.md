@@ -69,4 +69,5 @@ This repository is released under the MIT License. See individual project direct
 
 - **Stardew Valley**: ConcernedApe
 - **SMAPI**: Pathoschild
-- **SpaceCore**: spacechase0
+- **SpaceCore**: spacechase0# Updated by jinhyy
+
