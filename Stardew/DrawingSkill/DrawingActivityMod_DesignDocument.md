@@ -11,6 +11,13 @@
 - NPC와의 관계, 농장 발전, 경제 시스템과 완벽한 융합
 - 플레이어에게 **창의적이고 매력적인** 새로운 재미 제공
 
+### 🛠️ 기술적 구현
+- **SMAPI 4.3** 호환성 확보
+- **SpaceCore** 프레임워크를 통한 커스텀 스킬 구현
+- **StardewUI**를 활용한 현대적 UI 시스템
+- **Content Patcher**를 통한 아키텍처 분리
+- **i18n** 다국어 지원 시스템
+
 ---
 
 ## 🌟 핵심 시스템
@@ -283,4 +290,111 @@
 
 ---
 
-이 기획서는 예술 활동 모드가 단순한 아이템 제작이 아닌, 스타듀 밸리의 모든 시스템과 완벽하게 융합되는 **의미 있고 매력적인** 새로운 게임플레이를 제공한다는 것을 보여줍니다.
+## 🏗️ 아키텍처 설계
+
+### 1. 모듈 구조
+
+#### 로직 모드 (DrawingSkill)
+```
+DrawingSkill/
+├── manifest.json                    # SMAPI 모드 매니페스트
+├── DrawingActivityMod.cs            # 메인 모드 클래스
+├── DrawingSkill.cs                  # SpaceCore.Skills.Skill 상속
+├── DrawingToolManager.cs            # 도구 관리 시스템
+├── DrawingInspirationSystem.cs      # 영감 시스템
+├── DrawingDailyActivities.cs        # 일상 활동 시스템
+├── DrawingInspirationState.cs       # 영감 상태 관리
+├── DrawingInspirationEncyclopedia.cs # 영감 도감
+├── i18n/                           # 다국어 번역 파일
+│   ├── default.json                # 영어 (기본)
+│   └── ko.json                     # 한국어
+└── UI/                             # StardewUI 구조
+    ├── DrawingWorkbench.sml        # StarML UI 정의
+    ├── DrawingWorkbenchViewModel.cs # ViewModel
+    ├── DrawingInspirationEncyclopedia.sml
+    └── DrawingInspirationEncyclopediaViewModel.cs
+```
+
+#### 콘텐츠 팩 (CP_DrawingActivity)
+```
+CP_DrawingActivity/
+├── manifest.json                    # Content Patcher 팩 매니페스트
+├── content.json                     # 조건부 패치 정의
+└── assets/                         # UI 자산 파일들
+    └── drawing_skill_icon.png      # 스킬 아이콘
+```
+
+### 2. 기술 스택
+
+#### 핵심 프레임워크
+- **SMAPI 4.3**: 모드 로딩 및 이벤트 시스템
+- **SpaceCore**: 커스텀 스킬 구현
+- **StardewUI**: 현대적 UI 시스템
+- **Content Patcher**: 자산 관리
+
+#### 개발 도구
+- **.NET 5.0**: C# 개발 환경
+- **Visual Studio**: 통합 개발 환경
+- **Git**: 버전 관리
+
+### 3. 데이터 흐름
+
+#### 스킬 시스템
+```
+플레이어 행동 → 이벤트 감지 → 경험치 계산 → 스킬 레벨 업데이트 → UI 갱신
+```
+
+#### UI 시스템
+```
+StarML 정의 → ViewModel 데이터 → 데이터 바인딩 → 자동 UI 렌더링
+```
+
+#### 번역 시스템
+```
+i18n 파일 → SMAPI TranslationHelper → 다국어 텍스트 → UI 표시
+```
+
+### 4. 모범 사례 적용
+
+#### SMAPI 가이드 준수
+- ✅ `ITranslationHelper` 표준 사용
+- ✅ 이벤트 기반 아키텍처
+- ✅ 적절한 로깅 시스템
+
+#### SpaceCore 가이드 준수
+- ✅ `SpaceCore.Skills.Skill` 상속
+- ✅ `Skills.RegisterSkill()` 올바른 사용
+- ✅ 직업 시스템 구현
+
+#### StardewUI 가이드 준수
+- ✅ StarML + ViewModel 패턴
+- ✅ 데이터 바인딩 시스템
+- ✅ 조건부 스타일링
+
+---
+
+## 📋 개발 체크리스트
+
+### ✅ 완료된 항목
+- [x] SMAPI 4.3 호환성 확보
+- [x] SpaceCore 스킬 시스템 구현
+- [x] StardewUI 기반 UI 시스템
+- [x] Content Patcher 아키텍처 분리
+- [x] i18n 다국어 지원
+- [x] 커스텀 LocalizationManager 제거
+- [x] 잘못된 FrameworkMenu 클래스 제거
+- [x] 표준 번역 시스템 적용
+
+### 🔄 진행 중인 항목
+- [ ] 아이콘 자산 제작
+- [ ] 실제 게임 테스트
+- [ ] 성능 최적화
+
+### 📝 향후 계획
+- [ ] 추가 언어 지원 (일본어, 중국어)
+- [ ] 고급 UI 기능 추가
+- [ ] 모드 간 호환성 테스트
+
+---
+
+이 기획서는 예술 활동 모드가 단순한 아이템 제작이 아닌, 스타듀 밸리의 모든 시스템과 완벽하게 융합되는 **의미 있고 매력적인** 새로운 게임플레이를 제공한다는 것을 보여줍니다. 모든 코드는 공식 가이드 문서의 모범 사례를 따르며, 현대적이고 유지보수 가능한 구조를 갖추고 있습니다.
