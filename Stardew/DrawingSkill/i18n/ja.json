@@ -5,6 +5,19 @@
   "skill.name": "芸術活動",
   "skill.description": "絵画、彫刻、音楽など芸術作品を制作するスキルです。",
   
+  "profession.artist.name": "画家",
+  "profession.artist.description": "絵画制作に特化した職業です。絵画制作時に25%の追加経験値を獲得します。",
+  "profession.sculptor.name": "彫刻家",
+  "profession.sculptor.description": "彫刻作品制作に特化した職業です。彫刻制作時に25%の追加経験値を獲得します。",
+  "profession.master_artist.name": "巨匠画家",
+  "profession.master_artist.description": "画家の最高段階です。絵画作品の価値が50%増加します。",
+  "profession.art_critic.name": "芸術評論家",
+  "profession.art_critic.description": "芸術に対する深い理解を持つ職業です。インスピレーションをより頻繁に得ることができます。",
+  "profession.master_sculptor.name": "巨匠彫刻家",
+  "profession.master_sculptor.description": "彫刻家の最高段階です。彫刻作品の価値が50%増加します。",
+  "profession.art_dealer.name": "芸術商",
+  "profession.art_dealer.description": "芸術作品取引に特化した職業です。作品販売時に追加利益を得ることができます。",
+  
   "items.brush": "筆",
   "items.brush.description": "芸術作品を描くのに使用する筆です。",
   "items.chisel": "彫刻刀",
@@ -116,5 +129,26 @@
   "effects.peace_music": "平和の音楽効果：戦闘時に体力が回復します！",
   "effects.fishing_success": "釣り成功の音楽効果：釣りの成功率が増加します！",
   "effects.foraging_painting": "採集の絵効果：採集の成功率が増加します！",
-  "effects.crop_growth": "作物成長のメロディー効果：作物の成長が加速します！"
+  "effects.crop_growth": "作物成長のメロディー効果：作物の成長が加速します！",
+  
+  "ui.workbench.title": "絵画作業台",
+  "ui.workbench.inspiration_status": "インスピレーション：{unlocked}/{total}個解除済み",
+  "ui.workbench.tool_status": "筆：{has_brush}",
+  "ui.workbench.encyclopedia": "インスピレーション図鑑",
+  "ui.workbench.encyclopedia_tooltip": "利用可能なすべてのインスピレーションを確認",
+  "ui.workbench.create_artwork": "作品制作",
+  "ui.workbench.create_artwork_tooltip": "解除されたインスピレーションを使用して作品を制作",
+  "ui.workbench.daily_activities": "日常活動",
+  "ui.workbench.daily_activities_tooltip": "日常芸術活動を確認",
+  "ui.workbench.recent_activities": "最近の活動",
+  "ui.workbench.activity_format": "{activity} - {time}",
+  
+  "ui.encyclopedia.title": "インスピレーション図鑑",
+  "ui.encyclopedia.previous": "前へ",
+  "ui.encyclopedia.next": "次へ",
+  "ui.encyclopedia.page_info": "{current}ページ / {total}ページ",
+  "ui.encyclopedia.unlocked": "解除済み",
+  "ui.encyclopedia.locked": "ロック済み",
+  "ui.encyclopedia.create_artwork": "制作",
+  "ui.encyclopedia.close": "閉じる"
 }

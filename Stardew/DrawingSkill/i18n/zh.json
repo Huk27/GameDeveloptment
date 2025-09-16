@@ -5,6 +5,19 @@
   "skill.name": "艺术活动",
   "skill.description": "创作绘画、雕塑、音乐等艺术作品的技能。",
   
+  "profession.artist.name": "画家",
+  "profession.artist.description": "专精于绘画创作。绘画制作时获得25%额外经验值。",
+  "profession.sculptor.name": "雕塑家",
+  "profession.sculptor.description": "专精于雕塑作品创作。雕塑制作时获得25%额外经验值。",
+  "profession.master_artist.name": "绘画大师",
+  "profession.master_artist.description": "画家的最高阶段。绘画作品价值增加50%。",
+  "profession.art_critic.name": "艺术评论家",
+  "profession.art_critic.description": "对艺术有深刻理解的职业。可以更频繁地获得灵感。",
+  "profession.master_sculptor.name": "雕塑大师",
+  "profession.master_sculptor.description": "雕塑家的最高阶段。雕塑作品价值增加50%。",
+  "profession.art_dealer.name": "艺术商人",
+  "profession.art_dealer.description": "专精于艺术品交易。作品销售时获得额外利润。",
+  
   "items.brush": "画笔",
   "items.brush.description": "用于创作艺术作品的画笔。",
   "items.chisel": "雕刻刀",
@@ -116,5 +129,26 @@
   "effects.peace_music": "和平音乐效果：战斗中体力恢复！",
   "effects.fishing_success": "钓鱼成功音乐效果：钓鱼成功率增加！",
   "effects.foraging_painting": "采集之画效果：采集成功率增加！",
-  "effects.crop_growth": "作物成长旋律效果：作物成长加速！"
+  "effects.crop_growth": "作物成长旋律效果：作物成长加速！",
+  
+  "ui.workbench.title": "绘画工作台",
+  "ui.workbench.inspiration_status": "灵感：{unlocked}/{total}个已解锁",
+  "ui.workbench.tool_status": "画笔：{has_brush}",
+  "ui.workbench.encyclopedia": "灵感图鉴",
+  "ui.workbench.encyclopedia_tooltip": "查看所有可用灵感",
+  "ui.workbench.create_artwork": "创作作品",
+  "ui.workbench.create_artwork_tooltip": "使用已解锁的灵感创作作品",
+  "ui.workbench.daily_activities": "日常活动",
+  "ui.workbench.daily_activities_tooltip": "查看日常艺术活动",
+  "ui.workbench.recent_activities": "最近活动",
+  "ui.workbench.activity_format": "{activity} - {time}",
+  
+  "ui.encyclopedia.title": "灵感图鉴",
+  "ui.encyclopedia.previous": "上一页",
+  "ui.encyclopedia.next": "下一页",
+  "ui.encyclopedia.page_info": "第{current}页 / 共{total}页",
+  "ui.encyclopedia.unlocked": "已解锁",
+  "ui.encyclopedia.locked": "已锁定",
+  "ui.encyclopedia.create_artwork": "创作",
+  "ui.encyclopedia.close": "关闭"
 }
