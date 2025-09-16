@@ -21,16 +21,16 @@ namespace DrawingActivityMod
             // 레벨 5 직업들
             var artist = new Profession(this, "artist")
             {
-                Name = "화가",
-                Description = "그림 그리기에 특화된 직업입니다. 그림 제작 시 25% 추가 경험치를 획득합니다.",
+                Name = ModEntry.Instance.Helper.Translation.Get("profession.artist.name"),
+                Description = ModEntry.Instance.Helper.Translation.Get("profession.artist.description"),
                 Level = 5
             };
             this.Professions.Add(artist);
             
             var sculptor = new Profession(this, "sculptor")
             {
-                Name = "조각가",
-                Description = "조각 작품 제작에 특화된 직업입니다. 조각 제작 시 25% 추가 경험치를 획득합니다.",
+                Name = ModEntry.Instance.Helper.Translation.Get("profession.sculptor.name"),
+                Description = ModEntry.Instance.Helper.Translation.Get("profession.sculptor.description"),
                 Level = 5
             };
             this.Professions.Add(sculptor);
@@ -38,8 +38,8 @@ namespace DrawingActivityMod
             // 레벨 10 직업들 (분기)
             var masterArtist = new Profession(this, "master_artist")
             {
-                Name = "거장 화가",
-                Description = "화가의 최고 단계입니다. 그림 작품의 가치가 50% 증가합니다.",
+                Name = ModEntry.Instance.Helper.Translation.Get("profession.master_artist.name"),
+                Description = ModEntry.Instance.Helper.Translation.Get("profession.master_artist.description"),
                 Level = 10,
                 ParentProfessionId = "artist"
             };
@@ -47,8 +47,8 @@ namespace DrawingActivityMod
             
             var artCritic = new Profession(this, "art_critic")
             {
-                Name = "예술 평론가",
-                Description = "예술에 대한 깊은 이해를 가진 직업입니다. 영감을 더 자주 얻을 수 있습니다.",
+                Name = ModEntry.Instance.Helper.Translation.Get("profession.art_critic.name"),
+                Description = ModEntry.Instance.Helper.Translation.Get("profession.art_critic.description"),
                 Level = 10,
                 ParentProfessionId = "artist"
             };
@@ -56,8 +56,8 @@ namespace DrawingActivityMod
             
             var masterSculptor = new Profession(this, "master_sculptor")
             {
-                Name = "거장 조각가",
-                Description = "조각가의 최고 단계입니다. 조각 작품의 가치가 50% 증가합니다.",
+                Name = ModEntry.Instance.Helper.Translation.Get("profession.master_sculptor.name"),
+                Description = ModEntry.Instance.Helper.Translation.Get("profession.master_sculptor.description"),
                 Level = 10,
                 ParentProfessionId = "sculptor"
             };
@@ -65,8 +65,8 @@ namespace DrawingActivityMod
             
             var artDealer = new Profession(this, "art_dealer")
             {
-                Name = "예술 딜러",
-                Description = "예술 작품 거래에 특화된 직업입니다. 작품 판매 시 추가 수익을 얻을 수 있습니다.",
+                Name = ModEntry.Instance.Helper.Translation.Get("profession.art_dealer.name"),
+                Description = ModEntry.Instance.Helper.Translation.Get("profession.art_dealer.description"),
                 Level = 10,
                 ParentProfessionId = "sculptor"
             };

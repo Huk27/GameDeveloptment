@@ -1,7 +1,10 @@
 using StardewUI.ViewModels;
 using DrawingActivityMod.Systems;
+using StardewValley;
+using StardewModdingAPI;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace DrawingActivityMod.UI
 {
@@ -12,40 +15,11 @@ namespace DrawingActivityMod.UI
         private int currentPage = 0;
         private const int itemsPerPage = 8;
 
-        private string _statusText;
-        public string StatusText
-        {
-            get => _statusText;
-            set => SetProperty(ref _statusText, value);
-        }
-
-        private string _pageInfo;
-        public string PageInfo
-        {
-            get => _pageInfo;
-            set => SetProperty(ref _pageInfo, value);
-        }
-
-        private bool _hasPreviousPage;
-        public bool HasPreviousPage
-        {
-            get => _hasPreviousPage;
-            set => SetProperty(ref _hasPreviousPage, value);
-        }
-
-        private bool _hasNextPage;
-        public bool HasNextPage
-        {
-            get => _hasNextPage;
-            set => SetProperty(ref _hasNextPage, value);
-        }
-
-        private List<InspirationItemViewModel> _inspirationItems;
-        public List<InspirationItemViewModel> InspirationItems
-        {
-            get => _inspirationItems;
-            set => SetProperty(ref _inspirationItems, value);
-        }
+        public string StatusText { get; private set; }
+        public string PageInfo { get; private set; }
+        public bool HasPreviousPage { get; private set; }
+        public bool HasNextPage { get; private set; }
+        public List<InspirationItemViewModel> InspirationItems { get; private set; }
 
         public DrawingInspirationEncyclopediaViewModel(DrawingInspirationEncyclopedia encyclopedia)
         {
@@ -110,7 +84,7 @@ namespace DrawingActivityMod.UI
         }
     }
 
-    public class InspirationItemViewModel : ViewModel
+    public class InspirationItemViewModel
     {
         private readonly DrawingInspirationEncyclopedia.InspirationEntry inspiration;
         private readonly bool isUnlocked;

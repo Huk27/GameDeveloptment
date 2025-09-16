@@ -4,6 +4,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.UI;
 using StardewValley;
 using StardewValley.Menus;
+using SpaceCore.Skills;
 using System;
 using System.Collections.Generic;
 

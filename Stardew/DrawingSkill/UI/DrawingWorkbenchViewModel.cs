@@ -1,5 +1,8 @@
 using StardewUI.ViewModels;
 using DrawingActivityMod.Systems;
+using StardewValley;
+using StardewModdingAPI;
+using System.Linq;
 
 namespace DrawingActivityMod.UI
 {
@@ -9,33 +12,10 @@ namespace DrawingActivityMod.UI
         private readonly DrawingInspirationSystem inspirationSystem;
         private readonly DrawingDailyActivities dailyActivities;
 
-        private string _inspirationStatus;
-        public string InspirationStatus
-        {
-            get => _inspirationStatus;
-            set => SetProperty(ref _inspirationStatus, value);
-        }
-
-        private string _toolStatus;
-        public string ToolStatus
-        {
-            get => _toolStatus;
-            set => SetProperty(ref _toolStatus, value);
-        }
-
-        private bool _canCreateArtwork;
-        public bool CanCreateArtwork
-        {
-            get => _canCreateArtwork;
-            set => SetProperty(ref _canCreateArtwork, value);
-        }
-
-        private string _recentActivities;
-        public string RecentActivities
-        {
-            get => _recentActivities;
-            set => SetProperty(ref _recentActivities, value);
-        }
+        public string InspirationStatus { get; private set; }
+        public string ToolStatus { get; private set; }
+        public bool CanCreateArtwork { get; private set; }
+        public string RecentActivities { get; private set; }
 
         public DrawingWorkbenchViewModel(DrawingToolManager toolManager, 
                                        DrawingInspirationSystem inspirationSystem,

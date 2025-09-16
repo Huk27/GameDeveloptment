@@ -15,6 +15,11 @@
       "UniqueID": "spacechase0.StardewUI",
       "IsRequired": true,
       "MinimumVersion": "1.0.0"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher",
+      "IsRequired": false,
+      "MinimumVersion": "1.0.0"
     }
   ]
 }
