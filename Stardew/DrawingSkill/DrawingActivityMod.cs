@@ -219,7 +219,7 @@ namespace DrawingActivityMod
         
         private void OpenDrawingWorkbenchMenu()
         {
-            var viewModel = new DrawingActivityMod.UI.DrawingWorkbenchViewModel(toolManager, inspirationSystem);
+            var viewModel = new DrawingActivityMod.UI.DrawingWorkbenchViewModel(toolManager, inspirationSystem, dailyActivities);
             var ui = new StardewUI.Menus.SomeMenu("jinhyy.DrawingActivity/UI/DrawingWorkbench", viewModel);
             Game1.activeClickableMenu = ui;
         }
