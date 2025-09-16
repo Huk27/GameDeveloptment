@@ -1,92 +1,89 @@
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewValley;
-using StardewValley.Menus;
-using System;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceCore.Skills;
 using System.Collections.Generic;
 
 namespace DrawingActivityMod
 {
-    public class DrawingSkill
+    public class DrawingSkill : Skill
     {
-        public static string SkillId = "spacechase0.DrawingActivity";
-        
-        public static void RegisterSkill(IModHelper helper, LocalizationManager localization)
+        public DrawingSkill() : base("drawing")
         {
-            var spaceCore = helper.ModRegistry.GetApi("spacechase0.SpaceCore");
-            if (spaceCore != null)
+            // 경험치 곡선 설정 (기본 스킬과 유사)
+            this.ExperienceCurve = new int[] { 100, 380, 770, 1300, 2150, 3300, 4800, 6900, 10000, 15000 };
+            
+            // 스킬 바 색상 설정 (보라색)
+            this.ExperienceBarColor = new Color(138, 43, 226);
+            
+            // 직업 정의
+            this.Professions = new List<Profession>();
+            
+            // 레벨 5 직업들
+            var artist = new Profession(this, "artist")
             {
-                // 스킬 정의
-                var skillData = new
-                {
-                    Id = SkillId,
-                    Name = "그림",
-                    Description = "그림 그리기와 예술 작품 제작에 관한 스킬입니다.",
-                    Icon = "LooseSprites\\Cursors",
-                    SourceRect = new Rectangle(0, 0, 16, 16),
-                    Color = Color.Purple,
-                    LevelUpPerk = "그림 스킬 레벨업! 새로운 작품을 제작할 수 있습니다.",
-                    Professions = new[]
-                    {
-                        new
-                        {
-                            Id = "DrawingMaster",
-                            Name = "그림의 달인",
-                            Description = "그림 제작 시 25% 추가 경험치를 획득합니다.",
-                            Level = 5
-                        },
-                        new
-                        {
-                            Id = "DrawingInspiration",
-                            Name = "예술적 영감",
-                            Description = "영감을 더 자주 얻을 수 있습니다.",
-                            Level = 10
-                        }
-                    }
-                };
-                
-                // SpaceCore에 스킬 등록
-                spaceCore.RegisterSkill(skillData);
-            }
+                Name = "화가",
+                Description = "그림 그리기에 특화된 직업입니다. 그림 제작 시 25% 추가 경험치를 획득합니다.",
+                Level = 5
+            };
+            this.Professions.Add(artist);
+            
+            var sculptor = new Profession(this, "sculptor")
+            {
+                Name = "조각가",
+                Description = "조각 작품 제작에 특화된 직업입니다. 조각 제작 시 25% 추가 경험치를 획득합니다.",
+                Level = 5
+            };
+            this.Professions.Add(sculptor);
+            
+            // 레벨 10 직업들 (분기)
+            var masterArtist = new Profession(this, "master_artist")
+            {
+                Name = "거장 화가",
+                Description = "화가의 최고 단계입니다. 그림 작품의 가치가 50% 증가합니다.",
+                Level = 10,
+                ParentProfessionId = "artist"
+            };
+            this.Professions.Add(masterArtist);
+            
+            var artCritic = new Profession(this, "art_critic")
+            {
+                Name = "예술 평론가",
+                Description = "예술에 대한 깊은 이해를 가진 직업입니다. 영감을 더 자주 얻을 수 있습니다.",
+                Level = 10,
+                ParentProfessionId = "artist"
+            };
+            this.Professions.Add(artCritic);
+            
+            var masterSculptor = new Profession(this, "master_sculptor")
+            {
+                Name = "거장 조각가",
+                Description = "조각가의 최고 단계입니다. 조각 작품의 가치가 50% 증가합니다.",
+                Level = 10,
+                ParentProfessionId = "sculptor"
+            };
+            this.Professions.Add(masterSculptor);
+            
+            var artDealer = new Profession(this, "art_dealer")
+            {
+                Name = "예술 딜러",
+                Description = "예술 작품 거래에 특화된 직업입니다. 작품 판매 시 추가 수익을 얻을 수 있습니다.",
+                Level = 10,
+                ParentProfessionId = "sculptor"
+            };
+            this.Professions.Add(artDealer);
         }
-        
-        public static int GetDrawingLevel(Farmer farmer)
+
+        public override string GetName()
         {
-            var spaceCore = ModEntry.Instance.Helper.ModRegistry.GetApi("spacechase0.SpaceCore");
-            if (spaceCore != null)
-            {
-                return spaceCore.GetLevel(farmer, SkillId);
-            }
-            return 0;
+            return ModEntry.Instance.Helper.Translation.Get("skill.name");
         }
-        
-        public static void AddDrawingExperience(Farmer farmer, int amount)
+
+        public override string GetDescription()
         {
-            var spaceCore = ModEntry.Instance.Helper.ModRegistry.GetApi("spacechase0.SpaceCore");
-            if (spaceCore != null)
-            {
-                spaceCore.AddExperience(farmer, SkillId, amount);
-            }
+            return ModEntry.Instance.Helper.Translation.Get("skill.description");
         }
-        
-        public static int GetDrawingExperience(Farmer farmer)
-        {
-            var spaceCore = ModEntry.Instance.Helper.ModRegistry.GetApi("spacechase0.SpaceCore");
-            if (spaceCore != null)
-            {
-                return spaceCore.GetExperience(farmer, SkillId);
-            }
-            return 0;
-        }
-        
-        public static bool HasProfession(Farmer farmer, string professionId)
-        {
-            var spaceCore = ModEntry.Instance.Helper.ModRegistry.GetApi("spacechase0.SpaceCore");
-            if (spaceCore != null)
-            {
-                return spaceCore.HasProfession(farmer, professionId);
-            }
-            return false;
-        }
+
+        public override Texture2D SkillsPageIcon => null; // Content Patcher에서 처리
+        public override Texture2D Icon => null; // Content Patcher에서 처리
     }
 }

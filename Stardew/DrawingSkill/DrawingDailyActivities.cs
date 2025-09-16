@@ -13,14 +13,12 @@ namespace DrawingActivityMod
         private IModHelper helper;
         private IMonitor monitor;
         private DrawingInspirationSystem inspirationSystem;
-        private LocalizationManager localization;
         
-        public DrawingDailyActivities(IModHelper helper, IMonitor monitor, DrawingInspirationSystem inspirationSystem, LocalizationManager localization)
+        public DrawingDailyActivities(IModHelper helper, IMonitor monitor, DrawingInspirationSystem inspirationSystem)
         {
             this.helper = helper;
             this.monitor = monitor;
             this.inspirationSystem = inspirationSystem;
-            this.localization = localization;
         }
         
         public void Initialize()

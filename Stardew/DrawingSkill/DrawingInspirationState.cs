@@ -45,16 +45,14 @@ namespace DrawingActivityMod
     {
         private IModHelper helper;
         private IMonitor monitor;
-        private LocalizationManager localization;
         private List<DrawingInspirationState> activeInspirations;
         private Dictionary<string, int> inspirationCooldowns; // 같은 영감의 쿨다운 (분 단위)
         private Dictionary<string, int> inspirationCooldownDays; // 영감별 쿨다운 일수
         
-        public DrawingInspirationManager(IModHelper helper, IMonitor monitor, LocalizationManager localization)
+        public DrawingInspirationManager(IModHelper helper, IMonitor monitor)
         {
             this.helper = helper;
             this.monitor = monitor;
-            this.localization = localization;
             this.activeInspirations = new List<DrawingInspirationState>();
             this.inspirationCooldowns = new Dictionary<string, int>();
             this.inspirationCooldownDays = new Dictionary<string, int>();

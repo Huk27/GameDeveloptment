@@ -106,6 +106,7 @@
   "inspiration.hud_message": "{0}: +{1} Art Experience",
   
   "messages.skill_registered": "Art Activity skill has been successfully registered!",
+  "messages.tool_manager_initialized": "Drawing tool management system has been initialized!",
   "messages.inspiration_system_initialized": "Art Inspiration system has been initialized!",
   "messages.daily_activities_initialized": "Art Daily Activities system has been initialized!",
   "messages.artwork_completed": "Art work completed! Gained +{0} experience",
@@ -145,5 +146,26 @@
   "inspiration.cooldown_finished": "'{0}' inspiration cooldown finished!",
   "inspiration.rare_gained": "✨ Rare inspiration '{0}' gained! (Available again in {1} days)",
   "inspiration.legendary_gained": " Legendary inspiration '{0}' gained! (Available again in {1} days)",
-  "inspiration.very_rare": "Very rare inspiration!"
+  "inspiration.very_rare": "Very rare inspiration!",
+  
+  "ui.workbench.title": "Drawing Workbench",
+  "ui.workbench.inspiration_status": "Inspirations: {unlocked}/{total} unlocked",
+  "ui.workbench.tool_status": "Brush: {has_brush}",
+  "ui.workbench.encyclopedia": "Inspiration Encyclopedia",
+  "ui.workbench.encyclopedia_tooltip": "View all available inspirations",
+  "ui.workbench.create_artwork": "Create Artwork",
+  "ui.workbench.create_artwork_tooltip": "Create artwork using unlocked inspirations",
+  "ui.workbench.daily_activities": "Daily Activities",
+  "ui.workbench.daily_activities_tooltip": "View daily art activities",
+  "ui.workbench.recent_activities": "Recent Activities",
+  "ui.workbench.activity_format": "{activity} - {time}",
+  
+  "ui.encyclopedia.title": "Inspiration Encyclopedia",
+  "ui.encyclopedia.previous": "Previous",
+  "ui.encyclopedia.next": "Next",
+  "ui.encyclopedia.page_info": "Page {current} of {total}",
+  "ui.encyclopedia.unlocked": "Unlocked",
+  "ui.encyclopedia.locked": "Locked",
+  "ui.encyclopedia.create_artwork": "Create",
+  "ui.encyclopedia.close": "Close"
 }

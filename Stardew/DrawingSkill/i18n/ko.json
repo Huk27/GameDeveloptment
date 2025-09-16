@@ -106,6 +106,7 @@
   "inspiration.hud_message": "{0}: +{1} 예술 경험치",
   
   "messages.skill_registered": "예술 활동 스킬이 성공적으로 등록되었습니다!",
+  "messages.tool_manager_initialized": "그림 도구 관리 시스템이 초기화되었습니다!",
   "messages.inspiration_system_initialized": "예술 영감 시스템이 초기화되었습니다!",
   "messages.daily_activities_initialized": "예술 일상생활 활동 시스템이 초기화되었습니다!",
   "messages.artwork_completed": "예술 작품 제작 완료! 경험치 +{0} 획득",
@@ -145,5 +146,26 @@
   "inspiration.cooldown_finished": "'{0}' 영감의 쿨다운이 끝났습니다!",
   "inspiration.rare_gained": "✨ 희귀한 영감 '{0}'을 얻었습니다! ({1}일 후 다시 가능)",
   "inspiration.legendary_gained": " 전설의 영감 '{0}'을 얻었습니다! ({1}일 후 다시 가능)",
-  "inspiration.very_rare": "매우 희귀한 영감입니다!"
+  "inspiration.very_rare": "매우 희귀한 영감입니다!",
+  
+  "ui.workbench.title": "그림 작업대",
+  "ui.workbench.inspiration_status": "영감: {unlocked}/{total}개 해금됨",
+  "ui.workbench.tool_status": "붓: {has_brush}",
+  "ui.workbench.encyclopedia": "영감 도감",
+  "ui.workbench.encyclopedia_tooltip": "사용 가능한 모든 영감을 확인하세요",
+  "ui.workbench.create_artwork": "작품 제작",
+  "ui.workbench.create_artwork_tooltip": "해금된 영감을 사용하여 작품을 제작하세요",
+  "ui.workbench.daily_activities": "일상 활동",
+  "ui.workbench.daily_activities_tooltip": "일상 예술 활동을 확인하세요",
+  "ui.workbench.recent_activities": "최근 활동",
+  "ui.workbench.activity_format": "{activity} - {time}",
+  
+  "ui.encyclopedia.title": "영감 도감",
+  "ui.encyclopedia.previous": "이전",
+  "ui.encyclopedia.next": "다음",
+  "ui.encyclopedia.page_info": "{current}페이지 / {total}페이지",
+  "ui.encyclopedia.unlocked": "해금됨",
+  "ui.encyclopedia.locked": "잠김",
+  "ui.encyclopedia.create_artwork": "제작",
+  "ui.encyclopedia.close": "닫기"
 }

@@ -4,21 +4,17 @@
   "Version": "1.0.0",
   "Description": "스타듀 밸리에 새로운 그림 활동 스킬을 추가하는 모드입니다. 그림 작품을 제작하고 전시회에 참가할 수 있습니다.",
   "UniqueID": "jinhyy.DrawingActivity",
-  "ContentPackFor": {
-    "UniqueID": "Pathoschild.ContentPatcher"
-  },
-      "Dependencies": [
-        {
-          "UniqueID": "Pathoschild.ContentPatcher",
-          "IsRequired": true
-        },
-        {
-          "UniqueID": "spacechase0.SpaceCore",
-          "IsRequired": true
-        },
-        {
-          "UniqueID": "StardewUI",
-          "IsRequired": true
-        }
-      ]
+  "MinimumApiVersion": "4.0.0",
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "IsRequired": true,
+      "MinimumVersion": "1.1.0"
+    },
+    {
+      "UniqueID": "spacechase0.StardewUI",
+      "IsRequired": true,
+      "MinimumVersion": "1.0.0"
+    }
+  ]
 }

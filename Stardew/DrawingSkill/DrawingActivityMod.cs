@@ -11,28 +11,27 @@ namespace DrawingActivityMod
 {
     public class DrawingActivityMod : Mod
     {
+        public static DrawingActivityMod Instance { get; private set; }
+        
         private bool isDrawingCrafting = false;
         private string lastCraftedItem = "";
         private DrawingInspirationSystem inspirationSystem;
         private DrawingDailyActivities dailyActivities;
-        private LocalizationManager localization;
         private DrawingToolManager toolManager;
         
         public override void Entry(IModHelper helper)
         {
-            // 다국어 지원 시스템 초기화
-            localization = new LocalizationManager(this.Helper, this.Monitor);
-            localization.Initialize();
+            Instance = this; // Instance 설정
             
             // 도구 관리 시스템 초기화
-            toolManager = new DrawingToolManager(this.Helper, this.Monitor, localization);
+            toolManager = new DrawingToolManager(this.Helper, this.Monitor);
             
             // 영감 시스템 초기화
-            inspirationSystem = new DrawingInspirationSystem(this.Helper, this.Monitor, localization);
+            inspirationSystem = new DrawingInspirationSystem(this.Helper, this.Monitor);
             inspirationSystem.Initialize();
             
             // 일상생활 활동 시스템 초기화
-            dailyActivities = new DrawingDailyActivities(this.Helper, this.Monitor, inspirationSystem, localization);
+            dailyActivities = new DrawingDailyActivities(this.Helper, this.Monitor, inspirationSystem);
             
             // 이벤트 등록
             this.Helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -43,27 +42,27 @@ namespace DrawingActivityMod
 
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            // SpaceCore를 사용하여 새로운 스킬 추가
             try
             {
-                DrawingSkill.RegisterSkill(this.Helper, localization);
-                this.Monitor.Log(localization.GetMessage("skill_registered"), LogLevel.Info);
+                // SpaceCore 스킬 등록
+                Skills.RegisterSkill(new DrawingSkill());
+                this.Monitor.Log(this.Helper.Translation.Get("messages.skill_registered"), LogLevel.Info);
                 
                 // 도구 관리 시스템 초기화
                 toolManager.Initialize();
-                this.Monitor.Log("그림 도구 관리 시스템이 초기화되었습니다!", LogLevel.Info);
+                this.Monitor.Log(this.Helper.Translation.Get("messages.tool_manager_initialized"), LogLevel.Info);
                 
                 // 영감 시스템 초기화
                 inspirationSystem.Initialize();
-                this.Monitor.Log("그림 영감 시스템이 초기화되었습니다!", LogLevel.Info);
+                this.Monitor.Log(this.Helper.Translation.Get("messages.inspiration_system_initialized"), LogLevel.Info);
                 
                 // 일상생활 활동 시스템 초기화
                 dailyActivities.Initialize();
-                this.Monitor.Log("그림 일상활동 시스템이 초기화되었습니다!", LogLevel.Info);
+                this.Monitor.Log(this.Helper.Translation.Get("messages.daily_activities_initialized"), LogLevel.Info);
             }
             catch (Exception ex)
             {
-                this.Monitor.Log($"그림 스킬 등록 중 오류 발생: {ex.Message}", LogLevel.Error);
+                this.Monitor.Log($"Error registering drawing skill: {ex.Message}", LogLevel.Error);
             }
         }
 
@@ -219,15 +218,17 @@ namespace DrawingActivityMod
         
         private void OpenDrawingWorkbenchMenu()
         {
-            var menu = new DrawingWorkbenchMenu(toolManager, inspirationSystem, localization);
-            Game1.activeClickableMenu = menu;
+            var viewModel = new DrawingActivityMod.UI.DrawingWorkbenchViewModel(toolManager, inspirationSystem);
+            var ui = new StardewUI.Menus.SomeMenu("jinhyy.DrawingActivity/UI/DrawingWorkbench", viewModel);
+            Game1.activeClickableMenu = ui;
         }
 
         private void OpenInspirationEncyclopediaMenu()
         {
             var encyclopedia = inspirationSystem.GetEncyclopedia();
-            var menu = new DrawingInspirationEncyclopediaMenu(encyclopedia, localization);
-            Game1.activeClickableMenu = menu;
+            var viewModel = new DrawingActivityMod.UI.DrawingInspirationEncyclopediaViewModel(encyclopedia);
+            var ui = new StardewUI.Menus.SomeMenu("jinhyy.DrawingActivity/UI/DrawingInspirationEncyclopedia", viewModel);
+            Game1.activeClickableMenu = ui;
         }
     }
 }

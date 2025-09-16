@@ -10,7 +10,6 @@ namespace DrawingActivityMod
     {
         private IModHelper helper;
         private IMonitor monitor;
-        private LocalizationManager localization;
         private Dictionary<string, bool> acquiredTools = new Dictionary<string, bool>();
         
         // 도구 획득 조건
@@ -22,11 +21,10 @@ namespace DrawingActivityMod
             { "advanced", 3 }    // Robin 3하트
         };
         
-        public DrawingToolManager(IModHelper helper, IMonitor monitor, LocalizationManager localization)
+        public DrawingToolManager(IModHelper helper, IMonitor monitor)
         {
             this.helper = helper;
             this.monitor = monitor;
-            this.localization = localization;
         }
         
         public void Initialize()
