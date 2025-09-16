@@ -1,33 +1,33 @@
 {
   "Format": "2.0.0",
   "Changes": [
-    {
-      "Action": "EditImage",
-      "Target": "LooseSprites\\skill_sheet",
-      "FromFile": "assets/drawing_skill_icon.png",
-      "ToArea": { "X": 0, "Y": 72, "Width": 16, "Height": 18 },
-      "When": {
-        "HasMod": "jinhyy.DrawingActivity"
-      }
-    },
-    {
-      "Action": "EditImage",
-      "Target": "LooseSprites\\skill_sheet",
-      "FromFile": "assets/artist_profession_icon.png",
-      "ToArea": { "X": 16, "Y": 72, "Width": 16, "Height": 18 },
-      "When": {
-        "HasMod": "jinhyy.DrawingActivity"
-      }
-    },
-    {
-      "Action": "EditImage",
-      "Target": "LooseSprites\\skill_sheet",
-      "FromFile": "assets/sculptor_profession_icon.png",
-      "ToArea": { "X": 32, "Y": 72, "Width": 16, "Height": 18 },
-      "When": {
-        "HasMod": "jinhyy.DrawingActivity"
-      }
-    },
+    // {
+    //   "Action": "EditImage",
+    //   "Target": "LooseSprites\\skill_sheet",
+    //   "FromFile": "assets/drawing_skill_icon.png",
+    //   "ToArea": { "X": 0, "Y": 72, "Width": 16, "Height": 18 },
+    //   "When": {
+    //     "HasMod": "jinhyy.DrawingActivity"
+    //   }
+    // },
+    // {
+    //   "Action": "EditImage",
+    //   "Target": "LooseSprites\\skill_sheet",
+    //   "FromFile": "assets/artist_profession_icon.png",
+    //   "ToArea": { "X": 16, "Y": 72, "Width": 16, "Height": 18 },
+    //   "When": {
+    //     "HasMod": "jinhyy.DrawingActivity"
+    //   }
+    // },
+    // {
+    //   "Action": "EditImage",
+    //   "Target": "LooseSprites\\skill_sheet",
+    //   "FromFile": "assets/sculptor_profession_icon.png",
+    //   "ToArea": { "X": 32, "Y": 72, "Width": 16, "Height": 18 },
+    //   "When": {
+    //     "HasMod": "jinhyy.DrawingActivity"
+    //   }
+    // },
     {
       "Action": "EditData",
       "Target": "Data/ObjectInformation",
