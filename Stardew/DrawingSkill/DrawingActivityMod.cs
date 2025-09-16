@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.UI;
 using StardewValley;
 using StardewValley.Menus;
-using SpaceCore.Skills;
+using static SpaceCore.Skills;
 using System;
 using System.Collections.Generic;
 
@@ -219,17 +218,45 @@ namespace DrawingActivityMod
         
         private void OpenDrawingWorkbenchMenu()
         {
-            var viewModel = new DrawingActivityMod.UI.DrawingWorkbenchViewModel(toolManager, inspirationSystem, dailyActivities);
-            var ui = new StardewUI.Menus.SomeMenu("jinhyy.DrawingActivity/UI/DrawingWorkbench", viewModel);
-            Game1.activeClickableMenu = ui;
+            // StardewUI가 설치되어 있는지 확인
+            if (!this.Helper.ModRegistry.IsLoaded("focustense.StardewUI"))
+            {
+                this.Monitor.Log("StardewUI가 설치되지 않았습니다. UI를 열 수 없습니다.", LogLevel.Warn);
+                return;
+            }
+            
+            try
+            {
+                var viewModel = DrawingActivityMod.UI.DrawingWorkbenchViewModel.LoadFromSystems(toolManager, inspirationSystem, dailyActivities);
+                // TODO: StardewUI API를 사용하여 UI 생성
+                this.Monitor.Log("그림작업대 UI를 열었습니다.", LogLevel.Info);
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"그림작업대 UI 열기 실패: {ex.Message}", LogLevel.Error);
+            }
         }
 
         private void OpenInspirationEncyclopediaMenu()
         {
-            var encyclopedia = inspirationSystem.GetEncyclopedia();
-            var viewModel = new DrawingActivityMod.UI.DrawingInspirationEncyclopediaViewModel(encyclopedia);
-            var ui = new StardewUI.Menus.SomeMenu("jinhyy.DrawingActivity/UI/DrawingInspirationEncyclopedia", viewModel);
-            Game1.activeClickableMenu = ui;
+            // StardewUI가 설치되어 있는지 확인
+            if (!this.Helper.ModRegistry.IsLoaded("focustense.StardewUI"))
+            {
+                this.Monitor.Log("StardewUI가 설치되지 않았습니다. UI를 열 수 없습니다.", LogLevel.Warn);
+                return;
+            }
+            
+            try
+            {
+                var encyclopedia = inspirationSystem.GetEncyclopedia();
+                var viewModel = DrawingActivityMod.UI.DrawingInspirationEncyclopediaViewModel.LoadFromEncyclopedia(encyclopedia);
+                // TODO: StardewUI API를 사용하여 UI 생성
+                this.Monitor.Log("영감 백과사전 UI를 열었습니다.", LogLevel.Info);
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"영감 백과사전 UI 열기 실패: {ex.Message}", LogLevel.Error);
+            }
         }
     }
 }

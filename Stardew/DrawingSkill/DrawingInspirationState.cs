@@ -88,7 +88,7 @@ namespace DrawingActivityMod
             this.helper.Events.Display.RenderedHud += this.OnRenderedHud;
         }
         
-        private void OnUpdateTicking(object sender, UpdateTickingEventArgs e)
+        private void OnUpdateTicking(object sender, EventArgs e)
         {
             // 영감 상태 업데이트
             UpdateInspirationStates();
@@ -97,10 +97,10 @@ namespace DrawingActivityMod
             UpdateCooldowns();
         }
         
-        private void OnRenderedHud(object sender, RenderedHudEventArgs e)
+        private void OnRenderedHud(object sender, EventArgs e)
         {
             // 영감 상태 HUD 표시
-            DrawInspirationHUD(e.SpriteBatch);
+            DrawInspirationHUD();
         }
         
         private void UpdateInspirationStates()
@@ -237,29 +237,17 @@ namespace DrawingActivityMod
             return false;
         }
         
-        private void DrawInspirationHUD(SpriteBatch spriteBatch)
+        private void DrawInspirationHUD()
         {
             if (activeInspirations.Count == 0)
             {
                 return;
             }
             
-            // HUD 위치 설정
-            int x = 20;
-            int y = 20;
-            
-            // 영감 아이콘과 텍스트 그리기
-            for (int i = 0; i < activeInspirations.Count; i++)
+            // 영감 상태 로그 출력 (실제 HUD는 Content Patcher나 다른 방식으로 구현)
+            foreach (var inspiration in activeInspirations)
             {
-                var inspiration = activeInspirations[i];
-                
-                // 영감 아이콘 (간단한 원으로 표현)
-                Color iconColor = GetInspirationColor(inspiration.Intensity);
-                spriteBatch.DrawCircle(x, y + i * 30, 10, iconColor, 2);
-                
-                // 영감 이름과 지속시간
-                string text = $"{inspiration.Name} ({inspiration.GetRemainingDuration()}분)";
-                spriteBatch.DrawString(Game1.smallFont, text, new Vector2(x + 25, y + i * 30 - 5), Color.White);
+                ModEntry.Instance.Monitor.Log($"활성 영감: {inspiration.Name} ({inspiration.GetRemainingDuration()}분 남음)", LogLevel.Debug);
             }
         }
         
@@ -277,27 +265,27 @@ namespace DrawingActivityMod
         // 편의 메서드들
         public void AddDawnInspiration()
         {
-            TryAddInspiration("dawn", localization.GetInspirationName("dawn_beauty"), 1, 120);
+            TryAddInspiration("dawn", "새벽의 아름다움", 1, 120);
         }
         
         public void AddSunsetInspiration()
         {
-            TryAddInspiration("sunset", localization.GetInspirationName("sunset_gold"), 1, 120);
+            TryAddInspiration("sunset", "노을의 황금빛", 1, 120);
         }
         
         public void AddRainInspiration()
         {
-            TryAddInspiration("rain", localization.GetInspirationName("rain_melody"), 2, 180);
+            TryAddInspiration("rain", "비의 멜로디", 2, 180);
         }
         
         public void AddSnowInspiration()
         {
-            TryAddInspiration("snow", localization.GetInspirationName("snow_silence"), 2, 180);
+            TryAddInspiration("snow", "눈의 고요함", 2, 180);
         }
         
         public void AddRainbowInspiration()
         {
-            TryAddInspiration("rainbow", localization.GetInspirationName("rainbow_mystery"), 3, 240);
+            TryAddInspiration("rainbow", "무지개의 신비", 3, 240);
         }
         
         // 쿨다운 관련 메서드들

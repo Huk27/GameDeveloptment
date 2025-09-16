@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>DrawingActivityMod</AssemblyName>
     <RootNamespace>DrawingActivityMod</RootNamespace>
     <AssemblyTitle>Drawing Activity Mod</AssemblyTitle>
@@ -18,15 +18,19 @@
 
   <ItemGroup>
     <Reference Include="Stardew Valley">
-      <HintPath>$(GamePath)\Stardew Valley\Stardew Valley.exe</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Stardew Valley.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="StardewModdingAPI">
-      <HintPath>$(GamePath)\Stardew Valley\StardewModdingAPI.exe</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\StardewModdingAPI.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SpaceCore">
-      <HintPath>$(GamePath)\Stardew Valley\Mods\SpaceCore\SpaceCore.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\SpaceCore\SpaceCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="StardewUI">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\StardewUI\StardewUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

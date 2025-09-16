@@ -133,7 +133,7 @@ namespace DrawingActivityMod
             }
         }
         
-        private void UnlockInspiration(string inspirationKey)
+        public void UnlockInspiration(string inspirationKey)
         {
             encyclopedia.UnlockInspiration(inspirationKey);
             var inspiration = encyclopedia.GetInspiration(inspirationKey);
@@ -446,6 +446,17 @@ namespace DrawingActivityMod
             // 해금된 영감 수에 따라 보너스 증가
             var unlockedInspirations = encyclopedia.GetUnlockedInspirations();
             return 1.0f + (unlockedInspirations.Count * 0.1f); // 영감 1개당 10% 보너스
+        }
+        
+        // UI에서 사용할 메서드들
+        public List<DrawingInspirationEncyclopedia.InspirationEntry> GetUnlockedInspirations()
+        {
+            return encyclopedia.GetUnlockedInspirations();
+        }
+        
+        public List<DrawingInspirationEncyclopedia.InspirationEntry> GetAllInspirations()
+        {
+            return encyclopedia.GetAllInspirations();
         }
     }
 }

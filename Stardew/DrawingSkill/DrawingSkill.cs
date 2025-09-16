@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceCore.Skills;
+using static SpaceCore.Skills;
 using System.Collections.Generic;
+using System.Linq;
+using StardewValley;
 
 namespace DrawingActivityMod
 {
@@ -78,12 +80,34 @@ namespace DrawingActivityMod
             return ModEntry.Instance.Helper.Translation.Get("skill.name");
         }
 
-        public override string GetDescription()
+        public string GetDescription()
         {
             return ModEntry.Instance.Helper.Translation.Get("skill.description");
         }
 
-        public override Texture2D SkillsPageIcon => null; // Content Patcher에서 처리
-        public override Texture2D Icon => null; // Content Patcher에서 처리
+        public new Texture2D SkillsPageIcon => null; // Content Patcher에서 처리
+        public new Texture2D Icon => null; // Content Patcher에서 처리
+        
+        // 편의 메서드들
+        public static int GetDrawingLevel(Farmer farmer)
+        {
+            return farmer.GetCustomSkillLevel("drawing");
+        }
+        
+        public static void AddDrawingExperience(Farmer farmer, int amount)
+        {
+            farmer.AddCustomSkillExperience("drawing", amount);
+        }
+        
+        public static bool HasProfession(Farmer farmer, string professionId)
+        {
+            var skill = Skills.GetSkill("drawing");
+            if (skill == null) return false;
+            
+            var profession = skill.Professions.FirstOrDefault(p => p.Id == professionId);
+            if (profession == null) return false;
+            
+            return farmer.professions.Contains(profession.GetVanillaId());
+        }
     }
 }

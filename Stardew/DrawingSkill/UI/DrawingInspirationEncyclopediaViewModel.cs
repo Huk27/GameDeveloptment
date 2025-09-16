@@ -1,5 +1,4 @@
-using StardewUI.ViewModels;
-using DrawingActivityMod.Systems;
+using DrawingActivityMod;
 using StardewValley;
 using StardewModdingAPI;
 using System.Collections.Generic;
@@ -8,101 +7,73 @@ using System;
 
 namespace DrawingActivityMod.UI
 {
-    public class DrawingInspirationEncyclopediaViewModel : ViewModel
+    public record DrawingInspirationEncyclopediaViewModel(
+        string StatusText,
+        string PageInfo,
+        bool HasPreviousPage,
+        bool HasNextPage,
+        List<InspirationItemViewModel> InspirationItems
+    )
     {
-        private readonly DrawingInspirationEncyclopedia encyclopedia;
-        private List<DrawingInspirationEncyclopedia.InspirationEntry> allInspirations;
-        private int currentPage = 0;
-        private const int itemsPerPage = 8;
-
-        public string StatusText { get; private set; }
-        public string PageInfo { get; private set; }
-        public bool HasPreviousPage { get; private set; }
-        public bool HasNextPage { get; private set; }
-        public List<InspirationItemViewModel> InspirationItems { get; private set; }
-
-        public DrawingInspirationEncyclopediaViewModel(DrawingInspirationEncyclopedia encyclopedia)
+        public static DrawingInspirationEncyclopediaViewModel LoadFromEncyclopedia(DrawingInspirationEncyclopedia encyclopedia)
         {
-            this.encyclopedia = encyclopedia;
-            this.allInspirations = encyclopedia.GetAllInspirations();
+            var allInspirations = encyclopedia.GetAllInspirations();
+            var currentPage = 0;
+            const int itemsPerPage = 8;
             
-            UpdateData();
-        }
-
-        public void UpdateData()
-        {
-            // 상태 텍스트 업데이트
+            // 상태 텍스트 계산
             var unlockedCount = encyclopedia.GetUnlockedInspirations().Count;
             var totalCount = allInspirations.Count;
-            StatusText = ModEntry.Instance.Helper.Translation.Get("ui.workbench.inspiration_status", 
+            var statusText = ModEntry.Instance.Helper.Translation.Get("ui.workbench.inspiration_status", 
                 new { unlocked = unlockedCount, total = totalCount });
 
-            // 페이지 정보 업데이트
-            var totalPages = GetTotalPages();
-            PageInfo = ModEntry.Instance.Helper.Translation.Get("ui.encyclopedia.page_info", 
+            // 페이지 정보 계산
+            var totalPages = (int)Math.Ceiling((double)totalCount / itemsPerPage);
+            var pageInfo = ModEntry.Instance.Helper.Translation.Get("ui.encyclopedia.page_info", 
                 new { current = currentPage + 1, total = totalPages });
 
-            // 페이지네이션 버튼 상태 업데이트
-            HasPreviousPage = currentPage > 0;
-            HasNextPage = currentPage < totalPages - 1;
+            // 페이지네이션 버튼 상태
+            var hasPreviousPage = currentPage > 0;
+            var hasNextPage = currentPage < totalPages - 1;
 
-            // 현재 페이지의 영감 아이템들 업데이트
+            // 현재 페이지의 영감 아이템들
             var startIndex = currentPage * itemsPerPage;
             var endIndex = Math.Min(startIndex + itemsPerPage, allInspirations.Count);
-            var currentPageItems = allInspirations.Skip(startIndex).Take(itemsPerPage);
-
-            InspirationItems = currentPageItems.Select(inspiration => 
-                new InspirationItemViewModel(inspiration, encyclopedia.IsUnlocked(inspiration.Id))).ToList();
-        }
-
-        private int GetTotalPages()
-        {
-            return (int)Math.Ceiling((double)allInspirations.Count / itemsPerPage);
-        }
-
-        public void PreviousPage()
-        {
-            if (HasPreviousPage)
+            var inspirationItems = new List<InspirationItemViewModel>();
+            
+            for (int i = startIndex; i < endIndex; i++)
             {
-                currentPage--;
-                UpdateData();
+                var inspiration = allInspirations[i];
+                inspirationItems.Add(new InspirationItemViewModel(
+                    inspiration.Name,
+                    inspiration.Description,
+                    inspiration.IsUnlocked,
+                    inspiration.UnlockCondition
+                ));
             }
-        }
-
-        public void NextPage()
-        {
-            if (HasNextPage)
-            {
-                currentPage++;
-                UpdateData();
-            }
-        }
-
-        public void Close()
-        {
-            Game1.activeClickableMenu = null;
+            
+            return new DrawingInspirationEncyclopediaViewModel(
+                statusText,
+                pageInfo,
+                hasPreviousPage,
+                hasNextPage,
+                inspirationItems
+            );
         }
     }
 
-    public class InspirationItemViewModel
+    public record InspirationItemViewModel(
+        string Name,
+        string Description,
+        bool IsUnlocked,
+        string UnlockCondition
+    )
     {
-        private readonly DrawingInspirationEncyclopedia.InspirationEntry inspiration;
-        private readonly bool isUnlocked;
+        public string Status => IsUnlocked ? 
+            ModEntry.Instance.Helper.Translation.Get("ui.encyclopedia.unlocked") : 
+            ModEntry.Instance.Helper.Translation.Get("ui.encyclopedia.locked");
 
-        public string Name => inspiration.Name;
-        public string Description => inspiration.Description;
-        public string Status { get; private set; }
-        public bool CanCreate => isUnlocked;
-
-        public InspirationItemViewModel(DrawingInspirationEncyclopedia.InspirationEntry inspiration, bool isUnlocked)
-        {
-            this.inspiration = inspiration;
-            this.isUnlocked = isUnlocked;
-            
-            Status = isUnlocked ? 
-                ModEntry.Instance.Helper.Translation.Get("ui.encyclopedia.unlocked") : 
-                ModEntry.Instance.Helper.Translation.Get("ui.encyclopedia.locked");
-        }
+        public bool CanCreate => IsUnlocked;
 
         public void CreateArtwork()
         {

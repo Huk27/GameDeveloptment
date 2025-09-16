@@ -9,7 +9,20 @@ This repository contains various game development projects and mods.
 #### [DrawingSkill](./Stardew/DrawingSkill/)
 A comprehensive Stardew Valley mod that adds a new Drawing skill to the game. Create various drawing works, manage inspirations, and participate in art exhibitions.
 
-**Features:**
+#### [FarmStatistics](./Stardew/FarmStatistics/)
+A StardewUI-based mod that displays comprehensive farm statistics with demo data. Track crops, animals, time usage, and goals with beautiful visualizations.
+
+**FarmStatistics Features:**
+- 📊 Comprehensive farm statistics dashboard
+- 🌱 Crop statistics with harvest data and revenue tracking
+- 🐄 Animal statistics with product counts and happiness levels
+- ⏰ Time tracking for different activities (farming, mining, fishing, combat, foraging)
+- 🎯 Goal setting and progress tracking with visual progress bars
+- 🎨 Beautiful StardewUI-based interface with tab system
+- 🔥 Hot reloading support for development
+- 📱 Responsive grid layouts and card-based design
+
+**DrawingSkill Features:**
 - New Drawing skill with 10 levels and profession system
 - 25 unique inspirations with permanent unlock system
 - Tool management based on NPC relationships
@@ -27,16 +40,16 @@ A comprehensive Stardew Valley mod that adds a new Drawing skill to the game. Cr
 - ✅ Best practices from official guides
 
 **Installation:**
-1. Download both mod folders: `Stardew/DrawingSkill/` and `Stardew/CP_DrawingActivity/`
-2. Extract both to your Stardew Valley Mods folder
+1. **FarmStatistics**: Download `Stardew/FarmStatistics/` folder and extract to your Stardew Valley Mods folder
+2. **DrawingSkill**: Download both mod folders: `Stardew/DrawingSkill/` and `Stardew/CP_DrawingActivity/`
 3. Launch the game with SMAPI
 
 **Requirements:**
 - SMAPI 4.3+
 - Stardew Valley 1.6+
-- SpaceCore mod
-- StardewUI mod
-- Content Patcher mod
+- StardewUI mod (for FarmStatistics)
+- SpaceCore mod (for DrawingSkill)
+- Content Patcher mod (for DrawingSkill)
 
 ## Repository Structure
 
@@ -44,6 +57,15 @@ A comprehensive Stardew Valley mod that adds a new Drawing skill to the game. Cr
 GameDeveloptment/
 ├── README.md
 └── Stardew/
+    ├── FarmStatistics/                  # Farm Statistics Mod
+    │   ├── ModEntry.cs
+    │   ├── FarmStatisticsViewModel.cs
+    │   ├── PlayerInfoViewModel.cs
+    │   ├── manifest.json
+    │   ├── assets/
+    │   │   └── views/
+    │   │       └── FarmStatistics.sml
+    │   └── FarmStatistics.csproj
     ├── DrawingSkill/                    # Logic Mod
     │   ├── DrawingActivityMod.cs
     │   ├── DrawingSkill.cs

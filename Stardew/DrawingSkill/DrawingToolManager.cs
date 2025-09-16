@@ -123,10 +123,10 @@ namespace DrawingActivityMod
         {
             switch (toolType)
             {
-                case "brush": return localization.GetString("tool.brush_acquired");
-                case "pencil": return localization.GetString("tool.pencil_acquired");
-                case "paint": return localization.GetString("tool.paint_acquired");
-                case "advanced": return localization.GetString("tool.advanced_acquired");
+                case "brush": return "붓을 획득했습니다! (Abigail과의 우정으로 인해)";
+                case "pencil": return "연필을 획득했습니다! (Elliott과의 우정으로 인해)";
+                case "paint": return "물감을 획득했습니다! (Leah과의 우정으로 인해)";
+                case "advanced": return "고급 그림 도구를 획득했습니다! (Robin과의 우정으로 인해)";
                 default: return "알 수 없는 도구를 획득했습니다.";
             }
         }
@@ -186,6 +186,12 @@ namespace DrawingActivityMod
                 case "advanced": return "고급 그림 도구";
                 default: return "알 수 없는 도구";
             }
+        }
+        
+        // UI에서 사용할 메서드
+        public bool HasBrush()
+        {
+            return HasTool("brush");
         }
     }
 }

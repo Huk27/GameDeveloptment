@@ -279,5 +279,33 @@ namespace DrawingActivityMod
         {
             GiveDrawingExperience(20, "새로운 생명의 아름다움");
         }
+        
+        // 최근 활동 목록 반환
+        public List<ActivityRecord> GetRecentActivities(int count = 5)
+        {
+            // TODO: 실제 활동 기록 시스템 구현
+            var activities = new List<ActivityRecord>();
+            
+            // 예시 활동들
+            activities.Add(new ActivityRecord("새벽의 자연 관찰", "06:00"));
+            activities.Add(new ActivityRecord("오후의 창작 시간", "14:00"));
+            activities.Add(new ActivityRecord("일몰의 아름다움 감상", "18:00"));
+            activities.Add(new ActivityRecord("밤하늘의 별 관찰", "22:00"));
+            activities.Add(new ActivityRecord("자연의 수확물 관찰", "방금 전"));
+            
+            return activities.Take(count).ToList();
+        }
+    }
+    
+    public class ActivityRecord
+    {
+        public string Name { get; set; }
+        public string Time { get; set; }
+        
+        public ActivityRecord(string name, string time)
+        {
+            Name = name;
+            Time = time;
+        }
     }
 }
