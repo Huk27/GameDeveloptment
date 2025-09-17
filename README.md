@@ -187,6 +187,17 @@ This repository is released under the MIT License. See individual project direct
   - **PyromancersJourney**: 완전한 미니게임 구현
   - **DeepSeaFishing**: 새로운 게임 지역 추가
 
+#### 🌟 **CommunityMods** - 커뮤니티 인정 모드 컬렉션 (8개 모드)
+- **학습 포인트**: 게임 시스템 마스터, 최신 기술 패턴, 성능 최적화
+- **난이도**: 중급자~상급자 (고품질 코드 분석)
+- **소스**: [CJBok/SDV-Mods](https://github.com/CJBok/SDV-Mods), [atravita-mods/StardewMods](https://github.com/atravita-mods/StardewMods)
+- **특징**:
+  - **CJBok Collection**: 게임 시스템 완전 제어, 49개 치트 구현, 16개 언어 지원
+  - **Atravita Collection**: 최신 C# 패턴, 65개 Harmony 패치, 지능형 캐싱
+  - **CJBCheatsMenu**: 복잡한 탭 기반 UI 시스템의 모범 사례
+  - **MoreFertilizers**: 게임 메커니즘 대규모 확장 예제
+  - **AtraCore**: 모던 모드 개발 아키텍처
+
 ### 📁 **참고 자료 위치**
 ```
 ExampleMods/                        # 실제 구현된 완성 모드들
@@ -200,6 +211,18 @@ ExampleMods/                        # 실제 구현된 완성 모드들
 │   ├── Advanced-GameplayMods/     # 고급 게임플레이 (3개)
 │   ├── Archived-LearningMods/     # 구버전 학습용 (3개)
 │   └── README.md                  # 상세 가이드 및 학습 순서
+├── CommunityMods/                 # 커뮤니티 인정 모드 컬렉션 (8개)
+│   ├── CJBok-Collection/          # 게임 시스템 마스터 (4개)
+│   │   ├── CJBCheatsMenu/         # 종합 치트 시스템
+│   │   ├── CJBItemSpawner/        # 아이템 관리 시스템
+│   │   ├── CJBShowItemSellPrice/  # 가격 표시 시스템
+│   │   └── Common/                # 공통 라이브러리
+│   ├── Atravita-Collection/       # 최신 기술 & 성능 (4개)
+│   │   ├── AtraCore/              # 모던 개발 프레임워크
+│   │   ├── MoreFertilizers/       # 농업 시스템 확장
+│   │   ├── GrowableGiantCrops/    # 작물 시스템 혁신
+│   │   └── CritterRings/          # 장비 효과 시스템
+│   └── README.md                  # 컬렉션 상세 가이드
 └── README.md                      # 예제 모드 사용법
 
 ExternalLibraries/PathoschildMods/  # 검증된 패턴 라이브러리

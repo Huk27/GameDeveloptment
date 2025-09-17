@@ -1,0 +1,18 @@
+﻿{
+    /*********
+    ** In-game UI
+    *********/
+    "labels.single-price": "Valore Singolo",
+    "labels.stack-price": "Valore Totale",
+
+
+    /*********
+    ** Generic Mod Config Menu UI
+    *********/
+    "config.show-when.name": "Mostra prezzo",
+    "config.show-when.desc": "Scegli quando mostrare il prezzo di vendita nella IU.",
+
+    "config.show-when.Always": "Mostra sempre",
+    "config.show-when.BeforePriceCatalogue": "Mostra prima dello sblocco del Listino Prezzi",
+    "config.show-when.AfterPriceCatalogue": "Mostra dopo lo sblocco del Listino Prezzi"
+}
