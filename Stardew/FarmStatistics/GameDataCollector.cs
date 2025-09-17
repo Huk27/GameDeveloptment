@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Characters;
@@ -10,6 +11,8 @@ using StardewValley.Objects;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using FarmStatistics.Performance;
+using FarmStatistics.Analysis;
 using Object = StardewValley.Object;
 
 namespace FarmStatistics
@@ -17,6 +20,7 @@ namespace FarmStatistics
     /// <summary>
     /// 실제 게임 데이터를 수집하는 클래스
     /// Phase 2: 실제 게임 데이터 수집 및 멀티플레이어 지원
+    /// Phase 3.1: 성능 최적화 시스템 통합
     /// </summary>
     public class GameDataCollector
     {
@@ -30,10 +34,227 @@ namespace FarmStatistics
         // 캐시 키 상수화
         private const string FARM_DATA_KEY = "farm_data";
         
+        // Phase 3.1: 성능 최적화 매니저
+        private OptimizedDataCollectionManager _optimizedManager;
+        
+        // Phase 3.2: 고급 분석 매니저
+        private AdvancedAnalysisManager _analysisManager;
+        
         public GameDataCollector(IMonitor monitor)
         {
             _monitor = monitor ?? throw new ArgumentNullException(nameof(monitor));
+            
+            // Phase 3.1: 최적화 매니저 초기화 (지연 초기화)
+            InitializeOptimizedManager();
         }
+        
+        /// <summary>
+        /// Phase 3.1: 최적화 매니저 지연 초기화
+        /// </summary>
+        private void InitializeOptimizedManager()
+        {
+            try
+            {
+                if (_optimizedManager == null)
+                {
+                    _optimizedManager = new OptimizedDataCollectionManager(_monitor, this);
+                    _monitor?.Log("성능 최적화 매니저 초기화 완료", LogLevel.Debug);
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"최적화 매니저 초기화 중 오류: {ex.Message}", LogLevel.Error);
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.2: 고급 분석 매니저 지연 초기화
+        /// </summary>
+        private void InitializeAnalysisManager()
+        {
+            try
+            {
+                if (_analysisManager == null)
+                {
+                    _analysisManager = new AdvancedAnalysisManager(_monitor, this);
+                    _monitor?.Log("고급 분석 매니저 초기화 완료", LogLevel.Debug);
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"분석 매니저 초기화 중 오류: {ex.Message}", LogLevel.Error);
+            }
+        }
+        /// <summary>
+        /// Phase 3.1: 최적화된 데이터 수집 (비동기)
+        /// </summary>
+        public async Task<FarmStatisticsData> CollectCurrentDataOptimizedAsync(bool forceRefresh = false)
+        {
+            try
+            {
+                InitializeOptimizedManager(); // 지연 초기화 보장
+                
+                if (_optimizedManager != null)
+                {
+                    return await _optimizedManager.CollectDataAsync(forceRefresh);
+                }
+                else
+                {
+                    _monitor?.Log("최적화 매니저를 사용할 수 없어 기본 수집기 사용", LogLevel.Debug);
+                    return CollectCurrentData();
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"최적화된 데이터 수집 중 오류: {ex.Message}", LogLevel.Error);
+                return CollectCurrentData(); // 폴백
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.1: 성능 통계 가져오기
+        /// </summary>
+        public PerformanceStatistics GetPerformanceStatistics()
+        {
+            try
+            {
+                InitializeOptimizedManager();
+                return _optimizedManager?.GetPerformanceStats() ?? new PerformanceStatistics
+                {
+                    DataCacheStats = new CacheStatistics(),
+                    ComponentCacheStats = new CacheStatistics(),
+                    BatchProcessingStats = new BatchProcessingStats(),
+                    TotalMemoryUsage = GC.GetTotalMemory(false),
+                    LastUpdateTime = DateTime.Now
+                };
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"성능 통계 수집 중 오류: {ex.Message}", LogLevel.Error);
+                return new PerformanceStatistics();
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.2: 트렌드 분석 수행
+        /// </summary>
+        public async Task<TrendAnalysisResult> AnalyzeTrendAsync(string analysisType, AnalysisParameters parameters = null)
+        {
+            try
+            {
+                InitializeAnalysisManager();
+                
+                if (_analysisManager != null)
+                {
+                    return await _analysisManager.AnalyzeTrendAsync(analysisType, parameters);
+                }
+                else
+                {
+                    throw new InvalidOperationException("분석 매니저를 초기화할 수 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"트렌드 분석 중 오류 ({analysisType}): {ex.Message}", LogLevel.Error);
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.2: 비교 분석 수행
+        /// </summary>
+        public async Task<ComparisonResult> AnalyzeComparisonAsync(string comparisonType, AnalysisParameters parameters = null)
+        {
+            try
+            {
+                InitializeAnalysisManager();
+                
+                if (_analysisManager != null)
+                {
+                    return await _analysisManager.AnalyzeComparisonAsync(comparisonType, parameters);
+                }
+                else
+                {
+                    throw new InvalidOperationException("분석 매니저를 초기화할 수 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"비교 분석 중 오류 ({comparisonType}): {ex.Message}", LogLevel.Error);
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.2: 종합 분석 대시보드 생성
+        /// </summary>
+        public async Task<AnalysisDashboard> GenerateAnalysisDashboardAsync()
+        {
+            try
+            {
+                InitializeAnalysisManager();
+                
+                if (_analysisManager != null)
+                {
+                    return await _analysisManager.GenerateDashboardAsync();
+                }
+                else
+                {
+                    throw new InvalidOperationException("분석 매니저를 초기화할 수 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"분석 대시보드 생성 중 오류: {ex.Message}", LogLevel.Error);
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.2: 일일 데이터 기록
+        /// </summary>
+        public async Task RecordDailyDataAsync()
+        {
+            try
+            {
+                InitializeAnalysisManager();
+                
+                if (_analysisManager != null)
+                {
+                    await _analysisManager.RecordDailyDataAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"일일 데이터 기록 중 오류: {ex.Message}", LogLevel.Error);
+            }
+        }
+        
+        /// <summary>
+        /// Phase 3.2: 사용 가능한 분석 타입들 가져오기
+        /// </summary>
+        public Dictionary<string, List<string>> GetAvailableAnalysisTypes()
+        {
+            try
+            {
+                InitializeAnalysisManager();
+                
+                if (_analysisManager != null)
+                {
+                    return _analysisManager.GetAvailableAnalysisTypes();
+                }
+                else
+                {
+                    return new Dictionary<string, List<string>>();
+                }
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"분석 타입 조회 중 오류: {ex.Message}", LogLevel.Error);
+                return new Dictionary<string, List<string>>();
+            }
+        }
+        
         /// <summary>
         /// 현재 농장의 모든 데이터를 수집합니다 (Phase 2.1 - 안전성 강화)
         /// </summary>
@@ -115,13 +336,34 @@ namespace FarmStatistics
         }
         
         /// <summary>
-        /// 캐시를 강제로 지웁니다
+        /// 캐시를 강제로 지웁니다 (Phase 3.1/3.2 - 모든 캐시 시스템 연동)
         /// </summary>
-        public void ClearCache()
+        public void ClearCache(string dataType = null)
         {
-            _cachedData.Value.Clear();
-            _lastCacheUpdate.Value = DateTime.MinValue;
-            _monitor.Log("데이터 캐시 지움", LogLevel.Trace);
+            try
+            {
+                // 기존 캐시 클리어
+                _cachedData.Value.Clear();
+                _lastCacheUpdate.Value = DateTime.MinValue;
+                
+                // Phase 3.1: 최적화 매니저 캐시도 클리어
+                if (_optimizedManager != null)
+                {
+                    _optimizedManager.InvalidateCache(dataType);
+                }
+                
+                // Phase 3.2: 분석 매니저 캐시도 클리어
+                if (_analysisManager != null)
+                {
+                    _analysisManager.InvalidateCache(dataType);
+                }
+                
+                _monitor?.Log($"모든 캐시 지움 (타입: {dataType ?? "전체"})", LogLevel.Trace);
+            }
+            catch (Exception ex)
+            {
+                _monitor?.Log($"캐시 클리어 중 오류: {ex.Message}", LogLevel.Error);
+            }
         }
 
         #region 개요 데이터 수집

@@ -3,9 +3,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using FarmStatistics.Analysis;
 
 namespace FarmStatistics
 {
@@ -134,6 +136,9 @@ namespace FarmStatistics
         public bool ShowAnimalsTab => SelectedTab == "animals";
         public bool ShowTimeTab => SelectedTab == "time";
         public bool ShowGoalsTab => SelectedTab == "goals";
+        public bool ShowAnalysisTab => SelectedTab == "analysis";
+        public bool ShowTrendsTab => SelectedTab == "trends";
+        public bool ShowComparisonTab => SelectedTab == "comparison";
 
         // 개요 탭 데이터
         public string TotalEarnings { get; set; } = "1,250,000g";
@@ -157,6 +162,33 @@ namespace FarmStatistics
         // 목표 통계 데이터
         public IReadOnlyList<GoalStatistic> GoalStatistics { get; set; } = new List<GoalStatistic>();
         public string GoalsHeaderText => $"목표 진행률 ({GoalStatistics.Count}개)";
+        
+        // Phase 3.3: 분석 탭 데이터
+        public string AnalysisHeaderText { get; set; } = "🎯 종합 분석 대시보드";
+        public string TrendsHeaderText { get; set; } = "📈 트렌드 분석";
+        public string ComparisonHeaderText { get; set; } = "🏆 농장 비교 분석";
+        
+        // 종합 분석 대시보드 데이터
+        public double OverallScore { get; set; } = 0;
+        public string OverallRating { get; set; } = "분석 중...";
+        public IReadOnlyList<string> KeyInsights { get; set; } = new List<string>();
+        public IReadOnlyList<string> ActionableRecommendations { get; set; } = new List<string>();
+        
+        // 트렌드 분석 데이터
+        public string ProfitTrendSummary { get; set; } = "데이터 수집 중...";
+        public string ProductionTrendSummary { get; set; } = "데이터 수집 중...";
+        public string EfficiencyTrendSummary { get; set; } = "데이터 수집 중...";
+        public IReadOnlyList<TrendDataPoint> ProfitTrendData { get; set; } = new List<TrendDataPoint>();
+        public IReadOnlyList<TrendDataPoint> ProductionTrendData { get; set; } = new List<TrendDataPoint>();
+        
+        // 비교 분석 데이터
+        public string ProfitabilityComparison { get; set; } = "분석 중...";
+        public string EfficiencyComparison { get; set; } = "분석 중...";
+        public string DiversityComparison { get; set; } = "분석 중...";
+        public double ProfitabilityScore { get; set; } = 0;
+        public double EfficiencyScore { get; set; } = 0;
+        public double DiversityScore { get; set; } = 0;
+        public double GrowthScore { get; set; } = 0;
 
         #region Property Changes
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -191,6 +223,15 @@ namespace FarmStatistics
             OnPropertyChanged(nameof(ShowAnimalsTab));
             OnPropertyChanged(nameof(ShowTimeTab));
             OnPropertyChanged(nameof(ShowGoalsTab));
+            OnPropertyChanged(nameof(ShowAnalysisTab));
+            OnPropertyChanged(nameof(ShowTrendsTab));
+            OnPropertyChanged(nameof(ShowComparisonTab));
+            
+            // Phase 3.3: 분석 탭 활성화 시 데이터 업데이트
+            if (name == "analysis" || name == "trends" || name == "comparison")
+            {
+                _ = Task.Run(async () => await UpdateAnalysisDataAsync());
+            }
         }
 
         public static FarmStatisticsViewModel LoadDemoData()
@@ -211,6 +252,11 @@ namespace FarmStatistics
             tabs.Add(new TabData("animals", "동물", mouseCursors, new Rectangle(10, 428, 10, 10)));
             tabs.Add(new TabData("time", "시간", mouseCursors, new Rectangle(60, 428, 10, 10)));
             tabs.Add(new TabData("goals", "목표", mouseCursors, new Rectangle(70, 428, 10, 10)));
+            
+            // Phase 3.3: 새로운 분석 탭들 추가
+            tabs.Add(new TabData("analysis", "종합분석", mouseCursors, new Rectangle(80, 428, 10, 10)));
+            tabs.Add(new TabData("trends", "트렌드", mouseCursors, new Rectangle(90, 428, 10, 10)));
+            tabs.Add(new TabData("comparison", "비교", mouseCursors, new Rectangle(100, 428, 10, 10)));
             
             Tabs = tabs;
             
@@ -350,5 +396,157 @@ namespace FarmStatistics
             OnPropertyChanged(nameof(TotalPlayTime));
             OnPropertyChanged(nameof(SeasonComparison));
         }
+        
+        /// <summary>
+        /// Phase 3.3: 분석 데이터 업데이트 (비동기)
+        /// </summary>
+        public async Task UpdateAnalysisDataAsync()
+        {
+            try
+            {
+                if (_dataCollector != null)
+                {
+                    // 종합 대시보드 데이터 가져오기
+                    var dashboard = await _dataCollector.GenerateAnalysisDashboardAsync();
+                    
+                    OverallScore = dashboard.OverallScore;
+                    OverallRating = GetRatingText(dashboard.OverallScore);
+                    KeyInsights = dashboard.KeyInsights.ToList();
+                    ActionableRecommendations = dashboard.ActionableRecommendations.ToList();
+                    
+                    // 트렌드 분석 데이터 가져오기
+                    var profitTrend = await _dataCollector.AnalyzeTrendAsync("profit_trend");
+                    var productionTrend = await _dataCollector.AnalyzeTrendAsync("production_trend");
+                    var efficiencyTrend = await _dataCollector.AnalyzeTrendAsync("efficiency_trend");
+                    
+                    ProfitTrendSummary = profitTrend.Summary;
+                    ProductionTrendSummary = productionTrend.Summary;
+                    EfficiencyTrendSummary = efficiencyTrend.Summary;
+                    
+                    // 트렌드 데이터 포인트 변환
+                    ProfitTrendData = profitTrend.DataPoints.Select(dp => new TrendDataPoint
+                    {
+                        Date = dp.Date.ToString("MM/dd"),
+                        Value = dp.Value,
+                        Label = dp.Label,
+                        Color = GetTrendColor(profitTrend.TrendDirection)
+                    }).ToList();
+                    
+                    ProductionTrendData = productionTrend.DataPoints.Select(dp => new TrendDataPoint
+                    {
+                        Date = dp.Date.ToString("MM/dd"),
+                        Value = dp.Value,
+                        Label = dp.Label,
+                        Color = GetTrendColor(productionTrend.TrendDirection)
+                    }).ToList();
+                    
+                    // 비교 분석 데이터 가져오기
+                    var profitabilityComp = await _dataCollector.AnalyzeComparisonAsync("profitability_comparison");
+                    var efficiencyComp = await _dataCollector.AnalyzeComparisonAsync("efficiency_comparison");
+                    var diversityComp = await _dataCollector.AnalyzeComparisonAsync("diversity_comparison");
+                    var growthComp = await _dataCollector.AnalyzeComparisonAsync("growth_potential_comparison");
+                    
+                    ProfitabilityComparison = profitabilityComp.Summary;
+                    EfficiencyComparison = efficiencyComp.Summary;
+                    DiversityComparison = diversityComp.Summary;
+                    
+                    ProfitabilityScore = Math.Max(0, Math.Min(100, profitabilityComp.PercentageDifference + 50));
+                    EfficiencyScore = Math.Max(0, Math.Min(100, efficiencyComp.PercentageDifference + 50));
+                    DiversityScore = Math.Max(0, Math.Min(100, diversityComp.PercentageDifference + 50));
+                    GrowthScore = Math.Max(0, Math.Min(100, growthComp.PercentageDifference + 50));
+                    
+                    // 모든 분석 프로퍼티 변경 알림
+                    NotifyAnalysisPropertiesChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine($"분석 데이터 업데이트 오류: {ex.Message}");
+                
+                // 기본 분석 데이터로 폴백
+                LoadDefaultAnalysisData();
+            }
+        }
+        
+        private string GetRatingText(double score)
+        {
+            if (score >= 90) return "Excellent 🏆";
+            if (score >= 75) return "Good 👍";
+            if (score >= 60) return "Average 📊";
+            if (score >= 40) return "Below Average 📉";
+            return "Needs Improvement 🔧";
+        }
+        
+        private string GetTrendColor(TrendDirection direction)
+        {
+            return direction switch
+            {
+                TrendDirection.Increasing => "#00FF00", // 녹색
+                TrendDirection.Decreasing => "#FF0000", // 빨간색
+                _ => "#FFFF00" // 노란색
+            };
+        }
+        
+        private void LoadDefaultAnalysisData()
+        {
+            OverallScore = 65;
+            OverallRating = "Average 📊";
+            KeyInsights = new List<string>
+            {
+                "분석을 위한 충분한 데이터를 수집 중입니다.",
+                "더 많은 게임 플레이 후 상세한 인사이트를 제공할 수 있습니다."
+            };
+            ActionableRecommendations = new List<string>
+            {
+                "게임을 더 플레이하여 데이터를 축적해주세요.",
+                "다양한 작물과 동물을 키워보세요."
+            };
+            
+            ProfitTrendSummary = "데이터 수집 중... 더 많은 플레이가 필요합니다.";
+            ProductionTrendSummary = "데이터 수집 중... 더 많은 플레이가 필요합니다.";
+            EfficiencyTrendSummary = "데이터 수집 중... 더 많은 플레이가 필요합니다.";
+            
+            ProfitabilityComparison = "벤치마크 데이터 준비 중...";
+            EfficiencyComparison = "벤치마크 데이터 준비 중...";
+            DiversityComparison = "벤치마크 데이터 준비 중...";
+            
+            ProfitabilityScore = 50;
+            EfficiencyScore = 50;
+            DiversityScore = 50;
+            GrowthScore = 50;
+            
+            NotifyAnalysisPropertiesChanged();
+        }
+        
+        private void NotifyAnalysisPropertiesChanged()
+        {
+            OnPropertyChanged(nameof(OverallScore));
+            OnPropertyChanged(nameof(OverallRating));
+            OnPropertyChanged(nameof(KeyInsights));
+            OnPropertyChanged(nameof(ActionableRecommendations));
+            OnPropertyChanged(nameof(ProfitTrendSummary));
+            OnPropertyChanged(nameof(ProductionTrendSummary));
+            OnPropertyChanged(nameof(EfficiencyTrendSummary));
+            OnPropertyChanged(nameof(ProfitTrendData));
+            OnPropertyChanged(nameof(ProductionTrendData));
+            OnPropertyChanged(nameof(ProfitabilityComparison));
+            OnPropertyChanged(nameof(EfficiencyComparison));
+            OnPropertyChanged(nameof(DiversityComparison));
+            OnPropertyChanged(nameof(ProfitabilityScore));
+            OnPropertyChanged(nameof(EfficiencyScore));
+            OnPropertyChanged(nameof(DiversityScore));
+            OnPropertyChanged(nameof(GrowthScore));
+        }
+    }
+    
+    /// <summary>
+    /// Phase 3.3: 트렌드 데이터 포인트 클래스
+    /// </summary>
+    public class TrendDataPoint
+    {
+        public string Date { get; set; } = "";
+        public double Value { get; set; }
+        public string Label { get; set; } = "";
+        public string Color { get; set; } = "#00FF00";
     }
 }
