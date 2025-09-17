@@ -115,6 +115,15 @@ namespace FarmStatistics
     /// </summary>
     public class FarmStatisticsViewModel : INotifyPropertyChanged
     {
+        private readonly GameDataCollector _dataCollector;
+        
+        // Phase 2: 생성자 추가 (실제 데이터 콜렉터 주입)
+        public FarmStatisticsViewModel(GameDataCollector dataCollector = null)
+        {
+            _dataCollector = dataCollector;
+            InitializeTabs();
+        }
+        
         // 탭 시스템
         public IReadOnlyList<TabData> Tabs { get; set; } = new List<TabData>();
         public string SelectedTab { get; set; } = "overview";
@@ -287,7 +296,8 @@ namespace FarmStatistics
         {
             try
             {
-                var dataCollector = new GameDataCollector();
+                // Phase 2: 주입된 데이터 콜렉터 사용 또는 기본값
+                var dataCollector = _dataCollector ?? new GameDataCollector(null);
                 var farmData = dataCollector.CollectCurrentData();
                 
                 // 개요 데이터 업데이트
@@ -314,8 +324,11 @@ namespace FarmStatistics
             }
             catch (Exception ex)
             {
-                // 오류 발생 시 로그 출력 (실제 구현 시 SMAPI Monitor 사용)
-                System.Console.WriteLine($"FarmStatistics 데이터 업데이트 오류: {ex.Message}");
+                // Phase 2: 오류 발생 시 로그 출력 및 기본 데이터 로드
+                System.Console.WriteLine($"Phase 2 - FarmStatistics 데이터 업데이트 오류: {ex.Message}");
+                
+                // 기본 데이터로 폴백
+                LoadDemoData();
             }
         }
 

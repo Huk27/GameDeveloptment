@@ -20,31 +20,43 @@ namespace FarmStatistics
     public class ModEntry : Mod
     {
         private FarmStatisticsViewModel viewModel;
+        private GameDataCollector dataCollector;
+        private MultiplayerSyncManager syncManager;
 #if STARDEWUI_AVAILABLE
         private IViewEngine viewEngine;
 #endif
 
         /// <summary>
-        /// 모드 진입점 - SMAPI가 모드를 로드할 때 호출
+        /// 모드 진입점 - SMAPI가 모드를 로드할 때 호출 (Phase 2 - 멀티플레이어 지원)
         /// </summary>
         public override void Entry(IModHelper helper)
         {
+            // Phase 2: 데이터 콜렉터 초기화
+            dataCollector = new GameDataCollector(this.Monitor);
+            
             // 게임이 완전히 로드된 후에 UI를 초기화
             helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+            
+            // 세이브 파일 로드 후 멀티플레이어 매니저 초기화
+            helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
             
             // 키 입력 이벤트 구독 (UI 열기/닫기용)
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             
-            // 실시간 데이터 업데이트를 위한 이벤트들
+            // Phase 2: 실시간 데이터 업데이트를 위한 이벤트들
             helper.Events.GameLoop.TimeChanged += OnTimeChanged;
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.Player.InventoryChanged += OnInventoryChanged;
             helper.Events.World.ObjectListChanged += OnObjectListChanged;
             
-            // 게임 상태가 변경될 때마다 데이터 업데이트 (백업용)
-            helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+            // Phase 2: 멀티플레이어 이벤트들
+            helper.Events.Multiplayer.PeerConnected += OnPeerConnected;
+            helper.Events.Multiplayer.PeerDisconnected += OnPeerDisconnected;
             
-            this.Monitor.Log("FarmStatistics 모드가 로드되었습니다. 'F' 키를 눌러 농장 통계를 확인하세요.", LogLevel.Info);
+            // 주기적 데이터 동기화 (멀티플레이어용)
+            helper.Events.GameLoop.OneSecondUpdateTicked += OnOneSecondUpdateTicked;
+            
+            this.Monitor.Log("FarmStatistics Phase 2 모드가 로드되었습니다. (멀티플레이어 지원) 'F' 키를 눌러 농장 통계를 확인하세요.", LogLevel.Info);
         }
 
         /// <summary>
@@ -82,6 +94,17 @@ namespace FarmStatistics
                 this.Monitor.Log("StardewUI가 설치되지 않았습니다. 이 모드를 사용하려면 StardewUI가 필요합니다.", LogLevel.Error);
                 this.Monitor.Log("StardewUI를 설치한 후 모드를 다시 빌드하세요.", LogLevel.Info);
             }
+        }
+
+        /// <summary>
+        /// 세이브 파일이 로드된 후 멀티플레이어 매니저 초기화 - Phase 2
+        /// </summary>
+        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            // Phase 2: 멀티플레이어 매니저 초기화
+            syncManager = new MultiplayerSyncManager(this.Helper, this.Monitor, dataCollector);
+            
+            this.Monitor.Log($"멀티플레이어 매니저 초기화 완료. 호스트: {Context.IsMainPlayer}", LogLevel.Info);
         }
 
         /// <summary>
@@ -254,6 +277,40 @@ namespace FarmStatistics
 #else
             this.Monitor.Log("StardewUI가 컴파일 시점에 사용할 수 없습니다.", LogLevel.Warn);
 #endif
+        }
+
+        /// <summary>
+        /// 멀티플레이어 피어 연결 시 호출 - Phase 2
+        /// </summary>
+        private void OnPeerConnected(object sender, PeerConnectedEventArgs e)
+        {
+            this.Monitor.Log($"플레이어 연결됨: {e.Peer.PlayerID}", LogLevel.Info);
+            
+            // 호스트인 경우 새 플레이어에게 농장 데이터 전송
+            if (Context.IsMainPlayer && syncManager != null)
+            {
+                syncManager.BroadcastFarmData();
+            }
+        }
+
+        /// <summary>
+        /// 멀티플레이어 피어 연결 해제 시 호출 - Phase 2
+        /// </summary>
+        private void OnPeerDisconnected(object sender, PeerDisconnectedEventArgs e)
+        {
+            this.Monitor.Log($"플레이어 연결 해제됨: {e.Peer.PlayerID}", LogLevel.Info);
+        }
+
+        /// <summary>
+        /// 1초마다 호출 - 멀티플레이어 데이터 동기화 - Phase 2
+        /// </summary>
+        private void OnOneSecondUpdateTicked(object sender, OneSecondUpdateTickedEventArgs e)
+        {
+            // 30초마다 멀티플레이어 데이터 동기화
+            if (e.IsMultipleOf(30) && syncManager != null && Context.IsWorldReady)
+            {
+                syncManager.PeriodicSync();
+            }
         }
     }
 }
