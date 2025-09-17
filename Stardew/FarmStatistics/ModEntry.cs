@@ -1,6 +1,7 @@
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using System.Threading.Tasks;
 #if STARDEWUI_AVAILABLE
 using StardewUI;
 using StardewUI.Framework;
@@ -97,14 +98,28 @@ namespace FarmStatistics
         }
 
         /// <summary>
-        /// 세이브 파일이 로드된 후 멀티플레이어 매니저 초기화 - Phase 2
+        /// 세이브 파일이 로드된 후 멀티플레이어 매니저 초기화 - Phase 2.1 안전성 강화
         /// </summary>
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            // Phase 2: 멀티플레이어 매니저 초기화
-            syncManager = new MultiplayerSyncManager(this.Helper, this.Monitor, dataCollector);
-            
-            this.Monitor.Log($"멀티플레이어 매니저 초기화 완료. 호스트: {Context.IsMainPlayer}", LogLevel.Info);
+            try
+            {
+                // Phase 2.1: 안전한 멀티플레이어 매니저 초기화
+                if (dataCollector == null)
+                {
+                    this.Monitor.Log("데이터 콜렉터가 초기화되지 않음", LogLevel.Error);
+                    return;
+                }
+
+                syncManager = new MultiplayerSyncManager(this.Helper, this.Monitor, dataCollector);
+                
+                this.Monitor.Log($"멀티플레이어 매니저 초기화 완료. 호스트: {Context.IsMainPlayer}", LogLevel.Info);
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"멀티플레이어 매니저 초기화 오류: {ex.Message}", LogLevel.Error);
+                this.Monitor.Log($"스택 트레이스: {ex.StackTrace}", LogLevel.Debug);
+            }
         }
 
         /// <summary>
@@ -255,9 +270,14 @@ namespace FarmStatistics
                     return;
                 }
 
-                // ViewModel 생성 (실제 데이터 사용)
-                this.viewModel = new FarmStatisticsViewModel();
-                this.viewModel.InitializeTabs();
+                // Phase 2.1: 안전한 ViewModel 생성 (실제 데이터 사용)
+                if (dataCollector == null)
+                {
+                    this.Monitor.Log("데이터 콜렉터가 초기화되지 않았습니다.", LogLevel.Error);
+                    return;
+                }
+
+                this.viewModel = new FarmStatisticsViewModel(dataCollector);
                 this.viewModel.UpdateData(); // 실제 게임 데이터로 업데이트
 
                 // StardewUI를 사용하여 UI 생성 (탭 시스템 사용)
@@ -280,25 +300,86 @@ namespace FarmStatistics
         }
 
         /// <summary>
-        /// 멀티플레이어 피어 연결 시 호출 - Phase 2
+        /// 멀티플레이어 피어 연결 시 호출 (Phase 2.3 - 강화된 연결 처리)
         /// </summary>
         private void OnPeerConnected(object sender, PeerConnectedEventArgs e)
         {
-            this.Monitor.Log($"플레이어 연결됨: {e.Peer.PlayerID}", LogLevel.Info);
-            
-            // 호스트인 경우 새 플레이어에게 농장 데이터 전송
-            if (Context.IsMainPlayer && syncManager != null)
+            try
             {
-                syncManager.BroadcastFarmData();
+                this.Monitor.Log($"플레이어 연결됨: {e.Peer.PlayerID} (모드 버전: {e.Peer.GetMod(this.ModManifest.UniqueID)?.Version ?? "없음"})", LogLevel.Info);
+                
+                // 호스트인 경우 새 플레이어에게 즉시 농장 데이터 전송
+                if (Context.IsMainPlayer && syncManager != null)
+                {
+                    // 약간의 지연 후 데이터 전송 (연결 안정화 대기)
+                    Task.Delay(1000).ContinueWith(_ =>
+                    {
+                        try
+                        {
+                            syncManager.BroadcastFarmData();
+                            this.Monitor.Log($"새 플레이어 {e.Peer.PlayerID}에게 농장 데이터 전송 완료", LogLevel.Debug);
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Monitor.Log($"새 플레이어에게 데이터 전송 중 오류: {ex.Message}", LogLevel.Error);
+                        }
+                    });
+                }
+                
+                // 데이터 캐시 클리어 (새 플레이어 정보 반영)
+                if (dataCollector != null)
+                {
+                    dataCollector.ClearCache();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"플레이어 연결 처리 중 오류: {ex.Message}", LogLevel.Error);
             }
         }
 
         /// <summary>
-        /// 멀티플레이어 피어 연결 해제 시 호출 - Phase 2
+        /// 멀티플레이어 피어 연결 해제 시 호출 (Phase 2.3 - 강화된 해제 처리)
         /// </summary>
         private void OnPeerDisconnected(object sender, PeerDisconnectedEventArgs e)
         {
-            this.Monitor.Log($"플레이어 연결 해제됨: {e.Peer.PlayerID}", LogLevel.Info);
+            try
+            {
+                this.Monitor.Log($"플레이어 연결 해제됨: {e.Peer.PlayerID}", LogLevel.Info);
+                
+                // 호스트인 경우 남은 플레이어들에게 업데이트된 정보 전송
+                if (Context.IsMainPlayer && syncManager != null)
+                {
+                    // 약간의 지연 후 업데이트 (연결 해제 처리 완료 대기)
+                    Task.Delay(2000).ContinueWith(_ =>
+                    {
+                        try
+                        {
+                            // 데이터 캐시 클리어
+                            dataCollector?.ClearCache();
+                            
+                            // 남은 플레이어들에게 업데이트된 농장 데이터 전송
+                            syncManager.BroadcastFarmData();
+                            
+                            this.Monitor.Log($"플레이어 {e.Peer.PlayerID} 해제 후 데이터 업데이트 완료", LogLevel.Debug);
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Monitor.Log($"플레이어 해제 후 데이터 업데이트 중 오류: {ex.Message}", LogLevel.Error);
+                        }
+                    });
+                }
+                
+                // UI가 열려있는 경우 데이터 새로고침
+                if (this.viewModel != null && Game1.activeClickableMenu != null)
+                {
+                    this.viewModel.UpdateData();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"플레이어 연결 해제 처리 중 오류: {ex.Message}", LogLevel.Error);
+            }
         }
 
         /// <summary>
