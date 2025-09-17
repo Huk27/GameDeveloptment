@@ -2,17 +2,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using System.Threading.Tasks;
-#if STARDEWUI_AVAILABLE
 using StardewUI;
 using StardewUI.Framework;
-#endif
 
 namespace FarmStatistics
 {
-#if STARDEWUI_AVAILABLE
-    // PlayerInfoMenu 클래스는 더 이상 필요하지 않습니다.
-    // viewEngine.CreateMenuFromAsset()을 사용하여 직접 메뉴를 생성합니다.
-#endif
 
     /// <summary>
     /// FarmStatistics 모드의 메인 진입점
@@ -23,9 +17,7 @@ namespace FarmStatistics
         private FarmStatisticsViewModel viewModel;
         private GameDataCollector dataCollector;
         private MultiplayerSyncManager syncManager;
-#if STARDEWUI_AVAILABLE
         private IViewEngine viewEngine;
-#endif
 
         /// <summary>
         /// 모드 진입점 - SMAPI가 모드를 로드할 때 호출 (Phase 2 - 멀티플레이어 지원)
@@ -68,7 +60,6 @@ namespace FarmStatistics
             // StardewUI가 설치되어 있는지 확인
             if (this.Helper.ModRegistry.IsLoaded("focustense.StardewUI"))
             {
-#if STARDEWUI_AVAILABLE
                 viewEngine = this.Helper.ModRegistry.GetApi<IViewEngine>("focustense.StardewUI");
                 if (viewEngine != null)
                 {
@@ -230,7 +221,6 @@ namespace FarmStatistics
                 return;
             }
 
-#if STARDEWUI_AVAILABLE
             try
             {
                 // 현재 활성 메뉴가 우리 모드의 UI인지 확인
@@ -251,9 +241,6 @@ namespace FarmStatistics
             {
                 this.Monitor.Log($"UI 토글 중 오류 발생: {ex.Message}", LogLevel.Error);
             }
-#else
-            this.Monitor.Log("StardewUI가 컴파일 시점에 사용할 수 없습니다.", LogLevel.Warn);
-#endif
         }
 
         /// <summary>
@@ -261,7 +248,6 @@ namespace FarmStatistics
         /// </summary>
         private void ShowFarmStatisticsUI()
         {
-#if STARDEWUI_AVAILABLE
             try
             {
                 if (viewEngine == null)
@@ -294,9 +280,6 @@ namespace FarmStatistics
                 this.Monitor.Log($"UI 표시 중 오류 발생: {ex.Message}", LogLevel.Error);
                 this.Monitor.Log($"스택 트레이스: {ex.StackTrace}", LogLevel.Error);
             }
-#else
-            this.Monitor.Log("StardewUI가 컴파일 시점에 사용할 수 없습니다.", LogLevel.Warn);
-#endif
         }
 
         /// <summary>

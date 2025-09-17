@@ -176,11 +176,31 @@ This repository is released under the MIT License. See individual project direct
 - **난이도**: 중급자 (체계적인 대규모 모드 구조)  
 - **소스**: [paulsteele/Ferngill-Simple-Economy](https://github.com/paulsteele/Ferngill-Simple-Economy)
 
+#### 🎮 **SpacechaseMods** - spacechase0 모드 컬렉션 (15개 모드)
+- **학습 포인트**: 스킬 시스템, 대규모 콘텐츠 확장, 고급 게임플레이 메커니즘
+- **난이도**: 입문자~전문가 (다양한 난이도의 모드들)
+- **소스**: [spacechase0/StardewValleyMods](https://github.com/spacechase0/StardewValleyMods)
+- **특징**: 
+  - **LuckSkill**: 완전한 커스텀 스킬 시스템 (구버전 참고용)
+  - **MoonMisadventures**: 대규모 콘텐츠 확장 (50+ 파일)
+  - **BugNet, MoreRings**: 도구 및 장비 시스템
+  - **PyromancersJourney**: 완전한 미니게임 구현
+  - **DeepSeaFishing**: 새로운 게임 지역 추가
+
 ### 📁 **참고 자료 위치**
 ```
 ExampleMods/                        # 실제 구현된 완성 모드들
 ├── MatrixFishingUI/               # 낚시 UI 모드 (입문자용)
-└── Ferngill-Simple-Economy/       # 경제 시스템 (중급자용)
+├── Ferngill-Simple-Economy/       # 경제 시스템 모드 (중급자용)
+├── SpacechaseMods/                # spacechase0 모드 컬렉션 (15개)
+│   ├── UI-Examples/               # UI 구현 예제 (1개)
+│   ├── Gameplay-Modifications/    # 게임플레이 수정 (3개)
+│   ├── Visual-Enhancements/       # 시각적 개선 (2개)
+│   ├── Crafting-Systems/          # 제작 시스템 (1개)
+│   ├── Advanced-GameplayMods/     # 고급 게임플레이 (3개)
+│   ├── Archived-LearningMods/     # 구버전 학습용 (3개)
+│   └── README.md                  # 상세 가이드 및 학습 순서
+└── README.md                      # 예제 모드 사용법
 
 ExternalLibraries/PathoschildMods/  # 검증된 패턴 라이브러리
 ├── Automate/                      # 자동화 시스템 (우선 학습)

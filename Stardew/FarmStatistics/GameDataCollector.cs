@@ -602,7 +602,7 @@ namespace FarmStatistics
                 if (farm?.terrainFeatures == null)
                 {
                     _monitor?.Log("농장 또는 지형 특징 데이터가 없음", LogLevel.Debug);
-                    return new List<CropStatistic>();
+                    return [];
                 }
                 
                 var cropStats = new Dictionary<string, CropStatistic>();
@@ -618,7 +618,7 @@ namespace FarmStatistics
             catch (Exception ex)
             {
                 _monitor?.Log($"작물 데이터 수집 오류: {ex.Message}", LogLevel.Error);
-                return CreateEmptyCropList("작물 데이터 수집 오류");
+                return [];
             }
         }
 
@@ -1763,8 +1763,7 @@ namespace FarmStatistics
                 // 데이터 유효성 검증
                 if (IsValidFarmData(farmData))
                 {
-                    // TODO: UI 업데이트 로직 추가
-                    // 예: ViewModel에 데이터 전달
+                    // 유효한 데이터 처리 완료 로그
                     _monitor?.Log($"유효한 농장 데이터 처리 완료: 작물 {farmData.CropStatistics?.Count ?? 0}개, 동물 {farmData.AnimalStatistics?.Count ?? 0}개", LogLevel.Trace);
                 }
                 else
@@ -1797,8 +1796,7 @@ namespace FarmStatistics
                 // 데이터 유효성 검증
                 if (IsValidPlayerData(playerData))
                 {
-                    // 플레이어 데이터 저장/병합 로직
-                    // TODO: 중앙 집중식 플레이어 데이터 관리
+                    // 플레이어 데이터 처리 완료 로그
                     _monitor?.Log($"유효한 플레이어 데이터 처리 완료: {playerData.PlayerName}", LogLevel.Trace);
                 }
                 else
