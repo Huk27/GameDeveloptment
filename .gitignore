@@ -371,3 +371,23 @@ FodyWeavers.xsd
 *~
 .DS_Store
 Thumbs.db
+
+# Build outputs
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+
+# Large binary files
+*.zip
+*.7z
+
+# External repositories (downloaded via SETUP_GUIDE.md)
+ExternalLibraries/SMAPI/
+ExternalLibraries/StardewUI/
+ExternalLibraries/SpacechaseFrameworks/
+ExternalLibraries/PathoschildMods/
+ExampleMods/MatrixFishingUI/
+ExampleMods/Ferngill-Simple-Economy/
+ExampleMods/SpacechaseMods/

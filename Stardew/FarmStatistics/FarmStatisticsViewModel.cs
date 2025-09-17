@@ -281,12 +281,61 @@ namespace FarmStatistics
         }
 
         /// <summary>
-        /// 데이터 업데이트 메서드 (데모용으로는 빈 구현)
+        /// 실제 게임 데이터로 통계를 업데이트합니다
         /// </summary>
         public void UpdateData()
         {
-            // 데모 데이터이므로 실제 업데이트는 하지 않음
-            // 실제 구현 시에는 게임 데이터를 읽어와서 통계를 업데이트
+            try
+            {
+                var dataCollector = new GameDataCollector();
+                var farmData = dataCollector.CollectCurrentData();
+                
+                // 개요 데이터 업데이트
+                UpdateOverviewData(farmData.OverviewData);
+                
+                // 작물 데이터 업데이트
+                CropStatistics = farmData.CropStatistics;
+                OnPropertyChanged(nameof(CropStatistics));
+                OnPropertyChanged(nameof(CropsHeaderText));
+                
+                // 동물 데이터 업데이트
+                AnimalStatistics = farmData.AnimalStatistics;
+                OnPropertyChanged(nameof(AnimalStatistics));
+                OnPropertyChanged(nameof(AnimalsHeaderText));
+                
+                // 시간 데이터 업데이트
+                TimeStatistics = farmData.TimeStatistics;
+                OnPropertyChanged(nameof(TimeStatistics));
+                
+                // 목표 데이터 업데이트
+                GoalStatistics = farmData.GoalStatistics;
+                OnPropertyChanged(nameof(GoalStatistics));
+                OnPropertyChanged(nameof(GoalsHeaderText));
+            }
+            catch (Exception ex)
+            {
+                // 오류 발생 시 로그 출력 (실제 구현 시 SMAPI Monitor 사용)
+                System.Console.WriteLine($"FarmStatistics 데이터 업데이트 오류: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 개요 탭 데이터를 업데이트합니다
+        /// </summary>
+        private void UpdateOverviewData(OverviewData overviewData)
+        {
+            TotalEarnings = overviewData.TotalEarnings;
+            TotalCropsHarvested = overviewData.TotalCropsHarvested;
+            TotalAnimalProducts = overviewData.TotalAnimalProducts;
+            TotalPlayTime = overviewData.TotalPlayTime;
+            SeasonComparison = overviewData.SeasonComparison;
+            
+            // 개요 탭 프로퍼티들 변경 알림
+            OnPropertyChanged(nameof(TotalEarnings));
+            OnPropertyChanged(nameof(TotalCropsHarvested));
+            OnPropertyChanged(nameof(TotalAnimalProducts));
+            OnPropertyChanged(nameof(TotalPlayTime));
+            OnPropertyChanged(nameof(SeasonComparison));
         }
     }
 }
