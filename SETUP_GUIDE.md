@@ -7,8 +7,8 @@
 ### **한 번에 모든 환경 설정**
 ```bash
 # 저장소 클론
-git clone <your-repository-url>
-cd stardew-mod-dev
+git clone <your-repository-url> stardew
+cd stardew
 
 # 자동 환경 설정 실행
 ./setup_environment.sh
@@ -91,7 +91,7 @@ find ExternalLibraries ExampleMods -name ".git" -type d -exec rm -rf {} +
 설정 완료 후 다음과 같은 구조가 생성됩니다:
 
 ```
-stardew-mod-dev/
+stardew/
 ├── 📁 ExternalLibraries/           # 외부 프레임워크들 (Git 제외)
 │   ├── SMAPI/                      # 모딩 API
 │   ├── StardewUI/                  # UI 프레임워크
@@ -102,10 +102,11 @@ stardew-mod-dev/
 │   ├── Ferngill-Simple-Economy/   # 시스템 구현 예제
 │   └── SpacechaseMods/             # spacechase0 예제들
 ├── 📁 Stardew/                     # 우리의 개발 모드들
-│   ├── DrawingSkill/               # 그림 스킬 모드
-│   ├── FarmStatistics/             # 농장 통계 모드 ⭐
-│   └── SimpleUI/                   # UI 예제
-├── 📁 Documentation/               # 개발 문서들
+│   ├── FarmDashboard/              # 실시간 농장 대시보드 모드 ⭐
+│   ├── DrawingSkill/               # SpaceCore 기반 스킬 모드
+│   ├── [CP] Drawing Activity/      # DrawingSkill 전용 콘텐츠 팩
+│   └── SimpleUI/                   # UI 패턴 예제
+├── 📁 Documentation/               # 개발 문서들 (워크플로/기획)
 ├── 🚀 setup_environment.sh         # 자동 설정 스크립트
 ├── 📋 SETUP_GUIDE.md              # 이 파일
 └── 📖 README.md                   # 프로젝트 개요
@@ -168,8 +169,8 @@ find ExternalLibraries ExampleMods -name ".git" -type d -exec rm -rf {} +
 ls ExternalLibraries/SMAPI
 ls ExampleMods/MatrixFishingUI
 
-# 2. 모드 개발 시작
-cd Stardew/FarmStatistics
+# 2. 모드 개발 시작 (예: FarmDashboard)
+cd Stardew/FarmDashboard
 # 개발 작업...
 
 # 3. 빌드 및 테스트
@@ -192,4 +193,4 @@ cd ExternalLibraries/StardewUI/Framework
 
 이제 모든 필요한 도구와 예제들이 준비되었습니다. 
 
-**다음 단계**: [README.md](./README.md)에서 프로젝트 개요를 확인하고 개발을 시작하세요!
+**다음 단계**: [README.md](./README.md)와 [Documentation/AgentOnboardingGuide.md](./Documentation/AgentOnboardingGuide.md)을 확인하고 개발을 시작하세요!

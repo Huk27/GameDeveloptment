@@ -6,120 +6,64 @@ This repository contains various game development projects and mods.
 
 ### 🎨 Stardew Valley Mods
 
+#### [FarmDashboard](./Stardew/FarmDashboard/)
+Real-time HUD + 메뉴 대시보드로 농장 운영 지표를 요약해 주는 경량 모드입니다. 오늘 수익, 계절 누적, 작물/동물 상태, 활동 시간과 목표 진행도를 즉시 확인할 수 있습니다.
+
+**FarmDashboard Features:**
+- 📊 네 장의 HUD 카드로 핵심 지표 표시 (수익, 작물, 동물, 시간)
+- 🌱 작물 심기/성장/수확 준비/시든 타일 자동 집계
+- 🐄 동물 수, 행복도, 생산 준비 상태를 실시간 추적
+- ⏰ 활동 기반 시간 추적 + Gold-per-hour 계산
+- 🎯 일일 목표 진행률 바 제공 (수익, 행복도, 수확 준비)
+- ⚙️ Generic Mod Config Menu 연동 (토글 키/ 위치 설정)
+
 #### [DrawingSkill](./Stardew/DrawingSkill/)
-A comprehensive Stardew Valley mod that adds a new Drawing skill to the game. Create various drawing works, manage inspirations, and participate in art exhibitions.
-
-#### [FarmStatistics](./Stardew/FarmStatistics/)
-A StardewUI-based mod that displays comprehensive farm statistics with demo data. Track crops, animals, time usage, and goals with beautiful visualizations.
-
-**FarmStatistics Features:**
-- 📊 Comprehensive farm statistics dashboard
-- 🌱 Crop statistics with harvest data and revenue tracking
-- 🐄 Animal statistics with product counts and happiness levels
-- ⏰ Time tracking for different activities (farming, mining, fishing, combat, foraging)
-- 🎯 Goal setting and progress tracking with visual progress bars
-- 🎨 Beautiful StardewUI-based interface with tab system
-- 🔥 Hot reloading support for development
-- 📱 Responsive grid layouts and card-based design
+새로운 드로잉 스킬을 추가하는 대규모 모드입니다. 다양한 영감을 수집하고 전시회를 준비하며, 특수 도구와 활동을 통해 경험치를 획득합니다.
 
 **DrawingSkill Features:**
-- New Drawing skill with 10 levels and profession system
-- 25 unique inspirations with permanent unlock system
-- Tool management based on NPC relationships
-- Daily activities for automatic experience gain
-- Modern StardewUI-based interface
-- Multilingual support (EN, KO, JA, ZH)
-- Content Patcher architecture for easy customization
+- 10레벨 스킬 및 전문 직업 시스템
+- 25개의 영감과 영구 해금 구조
+- NPC 친밀도 기반 도구 관리
+- 일일 활동 자동 경험치, StardewUI 기반 UI
+- 다국어 지원 (EN, KO, JA, ZH)
+- Content Patcher 콘텐츠 팩과 연동
 
-**Technical Implementation:**
-- ✅ SMAPI 4.3 compatible
-- ✅ SpaceCore framework integration
-- ✅ StardewUI modern interface system
-- ✅ Content Patcher architecture separation
-- ✅ i18n internationalization support
-- ✅ Best practices from official guides
-- ✅ Pathoschild 모드 패턴 적용 (자동화, 캐싱, 성능 최적화)
+**Technical Implementation Notes:**
+- ✅ SMAPI 4.3+ 호환
+- ✅ FarmDashboard: 바닐라 HUD/Menu 렌더링 + GMCM 연동 + 활동 추적 로직
+- ✅ DrawingSkill: SpaceCore 스킬, StardewUI 뷰모델, Content Patcher 콘텐츠 팩, 다국어 지원
+- ✅ Pathoschild & spacechase0 모드 패턴을 기반으로 캐싱/성능 최적화 참고
 
 **Installation:**
-1. **FarmStatistics**: Download `Stardew/FarmStatistics/` folder and extract to your Stardew Valley Mods folder
-2. **DrawingSkill**: Download both mod folders: `Stardew/DrawingSkill/` and `Stardew/CP_DrawingActivity/`
-3. Launch the game with SMAPI
+1. **FarmDashboard**: `Stardew/FarmDashboard/`를 빌드하여 생성된 `FarmDashboard.dll`과 `manifest.json`을 `Stardew Valley/Mods/FarmDashboard`에 복사
+2. **DrawingSkill**: `Stardew/DrawingSkill/`과 `[CP] Drawing Activity/` 두 폴더를 Mods 폴더에 배치
+3. SMAPI로 게임 실행
 
 **Requirements:**
 - SMAPI 4.3+
 - Stardew Valley 1.6+
-- StardewUI mod (for FarmStatistics)
-- SpaceCore mod (for DrawingSkill)
-- Content Patcher mod (for DrawingSkill)
+- SpaceCore mod (DrawingSkill)
+- Content Patcher mod (DrawingSkill)
+- Generic Mod Config Menu 권장 (FarmDashboard 설정용, 선택 사항)
 
 ## Repository Structure
 
 ```
 stardew/
 ├── README.md
-├── Documentation/                       # 개발 문서
-│   ├── ModDevelopmentDocument/          # 모드 개발 가이드
-│   │   ├── Pathoschild 모드 분석 가이드.md
-│   │   ├── Pathoschild 핵심 코드 예제.md
-│   │   ├── SpaceCore 스킬 추가 및 CP 연동 가이드.md
-│   │   ├── StardewUI 모드 개발자 가이드 (심화 예제 포함).md
-│   │   └── 스타듀밸리 SMAPI API 활용 가이드.md
-│   ├── StardewUI/                       # StardewUI 관련 문서
-│   │   ├── DataBinding.md
-│   │   ├── DataBindingTroubleshooting.md
-│   │   └── StarML.md
-│   └── IssueResolutionTracker.md        # 이슈 해결 기록
-├── ExternalLibraries/                   # 외부 라이브러리 및 예제
-│   ├── SMAPI/                          # SMAPI 소스코드
-│   ├── SpaceCore/                      # SpaceCore 프레임워크
-│   ├── StardewValleyMods/              # 기타 모드들
-│   └── PathoschildMods/                # Pathoschild 모드 모음 (새로 추가)
-│       ├── Automate/                   # 자동화 시스템
-│       ├── ChestsAnywhere/             # 어디서나 상자 접근
-│       ├── LookupAnything/             # 정보 조회 시스템
-│       ├── DataLayers/                 # 데이터 레이어
-│       ├── Common/                     # 공통 라이브러리
-│       └── ... (기타 9개 모드)
-├── ExampleMods/                        # 예제 모드들
-└── Stardew/                            # 우리가 개발한 모드들
-    ├── FarmStatistics/                  # Farm Statistics Mod
-    │   ├── ModEntry.cs
-    │   ├── FarmStatisticsViewModel.cs
-    │   ├── PlayerInfoViewModel.cs
-    │   ├── manifest.json
-    │   ├── assets/
-    │   │   └── views/
-    │   │       ├── FarmStatistics.sml
-    │   │       ├── PlayerInfo.sml
-    │   │       └── PlayerInfoTabs.sml
-    │   └── FarmStatistics.csproj
-    ├── DrawingSkill/                    # Logic Mod
-    │   ├── DrawingActivityMod.cs
-    │   ├── DrawingSkill.cs
-    │   ├── DrawingInspirationSystem.cs
-    │   ├── DrawingToolManager.cs
-    │   ├── DrawingDailyActivities.cs
-    │   ├── DrawingInspirationEncyclopedia.cs
-    │   ├── DrawingInspirationState.cs
-    │   ├── manifest.json
-    │   ├── i18n/
-    │   │   ├── en.json
-    │   │   ├── ko.json
-    │   │   ├── ja.json
-    │   │   └── zh.json
-    │   ├── UI/
-    │   │   ├── DrawingWorkbench.sml
-    │   │   ├── DrawingWorkbenchViewModel.cs
-    │   │   ├── DrawingInspirationEncyclopedia.sml
-    │   │   └── DrawingInspirationEncyclopediaViewModel.cs
-    │   └── DrawingActivityMod_DesignDocument.md
-    ├── [CP] Drawing Activity/           # Content Pack
-    │   ├── manifest.json
-    │   ├── content.json
-    │   └── assets/
-    │       └── drawing_skill_icon.png
-    └── SimpleUI/                        # 예제 모드
-        └── PlayerInfoViewModel.cs
+├── Documentation/
+│   ├── AgentOnboardingGuide.md     # 에이전트 온보딩 절차
+│   ├── DevelopmentWorkflow.md      # 공통 작업 규칙
+│   ├── ModDevelopmentDocument/     # 기획/분석 문서
+│   ├── StardewUI/                  # StardewUI 관련 자료
+│   └── IssueResolutionTracker.md   # 이슈 해결 로그
+├── ExternalLibraries/              # SMAPI, SpaceCore 등 외부 라이브러리
+├── ExampleMods/                    # 참고용 커뮤니티 모드 모음
+└── Stardew/
+    ├── FarmDashboard/
+    ├── DrawingSkill/
+    ├── [CP] Drawing Activity/
+    └── SimpleUI/
 ```
 
 ## Contributing
@@ -144,9 +88,12 @@ This repository is released under the MIT License. See individual project direct
 
 [Pathoschild의 StardewMods 저장소](https://github.com/Pathoschild/StardewMods)를 분석하여 모범 사례와 고급 기법을 학습할 수 있는 자료를 구축했습니다.
 
-#### 📖 **분석 문서**
-- **[Pathoschild 모드 분석 가이드](./Documentation/ModDevelopmentDocument/Pathoschild%20모드%20분석%20가이드.md)**: 13개 모드의 카테고리별 분석 및 학습 포인트
-- **[Pathoschild 핵심 코드 예제](./Documentation/ModDevelopmentDocument/Pathoschild%20핵심%20코드%20예제.md)**: 실제 코드 예제와 우리 프로젝트 적용 방안
+#### 📖 **개발 가이드 문서**
+- **[SMAPI Developer Guide](./Documentation/ModDevelopmentDocument/SMAPI_Developer_Guide.md)**: 이벤트, 데이터, API 연동 패턴 정리
+- **[StardewUI Developer Guide](./Documentation/ModDevelopmentDocument/StardewUI_Developer_Guide.md)**: SML 뷰, ViewEngine 초기화, HUD/메뉴 구성법
+- **[SpaceCore Developer Guide](./Documentation/ModDevelopmentDocument/SpaceCore_Developer_Guide.md)**: 커스텀 스킬/직업 및 장비 슬롯 확장
+- **[Json Assets Developer Guide](./Documentation/ModDevelopmentDocument/JsonAssets_Developer_Guide.md)**: JSON 콘텐츠 팩 구조와 API 사용법
+- **[DGA Integration Guide](./Documentation/ModDevelopmentDocument/DGA_Developer_Guide.md)**: DGA 호환 패턴 및 리플렉션 접근 사례
 
 #### 🎯 **주요 학습 모드**
 - **Automate**: 자동화 시스템 설계 패턴
@@ -263,4 +210,3 @@ ExternalLibraries/PathoschildMods/  # 검증된 패턴 라이브러리
 ---
 
 **Updated by jinhyy** - All code now follows best practices from official SMAPI, SpaceCore, and StardewUI guides.
-

@@ -1,0 +1,11 @@
+{
+  "Name": "Farm Dashboard",
+  "Author": "stardew-dev-team",
+  "Version": "0.1.0",
+  "Description": "실시간 농장 운영 데이터를 HUD와 분석 대시보드로 제공하는 모드입니다.",
+  "UniqueID": "stardewteam.FarmDashboard",
+  "EntryDll": "FarmDashboard.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": [],
+  "Dependencies": []
+}
