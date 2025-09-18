@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>StardewUITestAddon</AssemblyName>
+    <RootNamespace>StardewUITestAddon</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <Import Project="..\StardewUI.props" />
+
+  <PropertyGroup>
+    <ModFolderName>StardewUITestAddon</ModFolderName>
+    <Name>Stardew UI Test Addon</Name>
+    <Description>Example add-on mod for Stardew UI.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="assets\sprites\Cursors.json" />
+    <None Remove="assets\sprites\MenuTiles.json" />
+    <None Remove="assets\views\CarouselDemo.sml" />
+    <None Remove="assets\views\FramedSprite.sml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\sprites\Cursors.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\MenuTiles.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\CarouselDemo.sml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\FramedSprite.sml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SMAPIDependency Include="focustense.StardewUI" Version="0.4.2" Reference="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" />
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="PropertyChanged.SourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

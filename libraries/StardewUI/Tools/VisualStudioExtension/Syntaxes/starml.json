@@ -1,0 +1,241 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "StarML",
+  "scopeName": "source.sml",
+  "fileTypes": [
+    ".sml",
+    ".starml"
+  ],
+  "patterns": [
+    {
+      "include": "#tag-start"
+    },
+    {
+      "include": "#tag-end"
+    },
+    {
+      "name": "comment.block.dtd",
+      "begin": "(<!--)",
+      "end": "(-->)"
+    }
+  ],
+  "repository": {
+    "tag-start": {
+      "name": "meta.tag.sml",
+      "begin": "(<)([a-zA-Z0-9-_]+)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.sml"
+        },
+        "2": {
+          "name": "entity.name.tag.sml"
+        }
+      },
+      "end": "/?>",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.tag.sml"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#attribute"
+        },
+        {
+          "include": "#conditional"
+        }
+      ]
+    },
+    "tag-end": {
+      "name": "meta.tag.sml",
+      "match": "(</)([a-zA-Z0-9-_]+)(>)",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.tag.sml"
+        },
+        "2": {
+          "name": "entity.name.tag.sml"
+        },
+        "3": {
+          "name": "punctuation.definition.tag.sml"
+        }
+      }
+    },
+    "attribute": {
+      "name": "meta.attribute.sml",
+      "patterns": [
+        {
+          "match": "(?:^|\\s+)(\\+?[-:\\w]+)(=)",
+          "captures": {
+            "1": {
+              "name": "entity.name.attribute.sml"
+            },
+            "2": {
+              "name": "punctuation.definition.attribute.sml"
+            }
+          }
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#binding"
+        },
+        {
+          "include": "#event"
+        }
+      ]
+    },
+    "conditional": {
+      "patterns": [
+        {
+          "match": "(?:^|\\s+)([\\*](?:context|float|outlet|repeat|switch))(=)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.sml"
+            },
+            "2": {
+              "name": "punctuation.definition.control.sml"
+            }
+          }
+        },
+        {
+          "match": "(?:^|\\s+)([\\*]!?(?:case|if))(=)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.negatable.sml"
+            },
+            "2": {
+              "name": "punctuation.definition.control.sml"
+            }
+          }
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.sml",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.sml"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.sml"
+        }
+      },
+      "patterns": [
+        {
+          "match": "[^\"]+"
+        }
+      ]
+    },
+    "binding": {
+      "name": "attribute.value.braced.sml",
+      "begin": "{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.binding.open.sml"
+        }
+      },
+      "end": "}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.binding.close.sml"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#binding-constant"
+        },
+        {
+          "include": "#binding-property"
+        }
+      ]
+    },
+    "binding-constant": {
+      "name": "variable.other.constant.sml",
+      "match": "([@#&])([\\w\\.\\/:]+)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.sml"
+        }
+      }
+    },
+    "binding-property": {
+      "name": "variable.other.property.sml",
+      "match": "(<?>?\\:?\\^*)?(~(\\w+)\\.)?(\\w+)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.sml"
+        },
+        "2": {
+          "name": "keyword.operator.sml"
+        },
+        "3": {
+          "name": "entity.name.type.class.sml"
+        },
+        "4": {
+          "name": "variable.other.property.sml"
+        }
+      }
+    },
+    "event": {
+      "name": "attribute.value.piped.sml",
+      "begin": "\\|",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.event.open.sml"
+        }
+      },
+      "end": "\\|",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.event.close.sml"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "(<?>?\\:?\\^*)?(~(\\w+)\\.)?(\\w+)(\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.operator.sml"
+            },
+            "2": {
+              "name": "keyword.operator.sml"
+            },
+            "3": {
+              "name": "entity.name.type.class.sml"
+            },
+            "4": {
+              "name": "support.function.sml"
+            },
+            "5": {
+              "name": "punctuation.function.open.sml"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.function.close.sml"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.language.function.sml",
+              "match": "\\$\\w+"
+            },
+            {
+              "include": "#string"
+            },
+            {
+              "include": "#binding-property"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

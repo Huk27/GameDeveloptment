@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <Import Project="..\StardewUI.props" />
+
+  <PropertyGroup>
+    <EnableGameDebugging>false</EnableGameDebugging>
+    <EnableModDeploy>False</EnableModDeploy>
+    <EnableModZip>False</EnableModZip>
+    <BundleExtraAssemblies>All</BundleExtraAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Krafs.Publicizer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="LoxSmoke.DocXml" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\StardewUI.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Publicize Include="DocXml:LoxSmoke.DocXml.DocXmlReader.assemblyNavigators" />
+    <Publicize Include="DocXml:LoxSmoke.DocXml.DocXmlReader.GetComments" />
+    <Publicize Include="DocXml:LoxSmoke.DocXml.DocXmlReader.GetXmlMemberNode" />
+  </ItemGroup>
+
+</Project>

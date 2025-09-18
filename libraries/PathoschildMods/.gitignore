@@ -1,0 +1,44 @@
+# user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+_releases/
+
+# Visual Studio cache/options
+.vs/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NuGet packages
+*.nupkg
+**/packages/*
+*.nuget.props
+*.nuget.targets
+
+# vanilla map tilesheets
+CentralStation/\[CP\] CentralStation/assets/maps/desert_festival_tilesheet.png
+CentralStation/\[CP\] CentralStation/assets/maps/Festivals.png
+CentralStation/\[CP\] CentralStation/assets/maps/MovieTheater_TileSheet.png
+CentralStation/\[CP\] CentralStation/assets/maps/paths.png
+CentralStation/\[CP\] CentralStation/assets/maps/pirates_tilesheet.png
+CentralStation/\[CP\] CentralStation/assets/maps/townInterior.png
+CentralStation/\[CP\] CentralStation/assets/maps/walls_and_floors.png
+
+SmallBeachFarm/assets/paths.png
+SmallBeachFarm/assets/spring_beach.png
+SmallBeachFarm/assets/spring_island_tilesheet_1.png
+SmallBeachFarm/assets/spring_outdoorsTileSheet.png
+SmallBeachFarm/assets/spring_town.png
+
+# JetBrains Rider
+.idea/

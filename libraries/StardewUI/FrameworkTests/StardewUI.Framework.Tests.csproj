@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <EnableGameDebugging>false</EnableGameDebugging>
+    <EnableModDeploy>False</EnableModDeploy>
+    <EnableModZip>False</EnableModZip>
+    <BundleExtraAssemblies>All</BundleExtraAssemblies>
+  </PropertyGroup>
+
+  <Import Project="..\StardewUI.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" />
+    <PackageReference Include="PropertyChanged.SourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\StardewUI.Framework.csproj" />
+  </ItemGroup>
+
+  <Target Name="SetGamePath" BeforeTargets="CoreBuild">
+    <Message Text="Test task" Importance="high" />
+    <WriteLinesToFile
+      File="$(OutputPath)\GameSettings.json"
+      Lines="{&quot;GamePath&quot;: &quot;$(GamePath.Replace(&quot;\&quot;, &quot;\\&quot;))&quot;}"
+      Overwrite="true" />
+  </Target>
+
+</Project>

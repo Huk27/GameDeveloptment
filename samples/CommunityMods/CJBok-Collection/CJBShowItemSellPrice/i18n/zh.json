@@ -1,0 +1,18 @@
+﻿{
+    /*********
+    ** In-game UI
+    *********/
+    "labels.single-price": "单价",
+    "labels.stack-price": "总计",
+
+
+    /*********
+    ** Generic Mod Config Menu UI
+    *********/
+    "config.show-when.name": "显示价格",
+    "config.show-when.desc": "选择何时显示售价 UI",
+
+    "config.show-when.Always": "总是显示",
+    "config.show-when.BeforePriceCatalogue": "价格目录解锁前",
+    "config.show-when.AfterPriceCatalogue": "价格目录解锁后"
+}

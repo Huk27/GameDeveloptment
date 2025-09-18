@@ -1,0 +1,262 @@
+---
+title: SAttribute
+description: Record implementation of a StarML IAttribute.
+search:
+    boost: 0.002
+---
+
+<link rel="stylesheet" href="/StardewUI/stylesheets/reference.css" />
+
+/// html | div.api-reference
+
+# Class SAttribute
+
+## Definition
+
+<div class="api-definition" markdown>
+
+Namespace: [StardewUI.Framework.Dom](index.md)  
+Assembly: StardewUI.dll  
+
+</div>
+
+Record implementation of a StarML [IAttribute](iattribute.md).
+
+```cs
+public record SAttribute : StardewUI.Framework.Dom.IAttribute, 
+    IEquatable<StardewUI.Framework.Dom.SAttribute>
+```
+
+**Inheritance**  
+[Object](https://learn.microsoft.com/en-us/dotnet/api/system.object) ⇦ SAttribute
+
+**Implements**  
+[IAttribute](iattribute.md), [IEquatable](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1)<[SAttribute](sattribute.md)>
+
+## Remarks
+
+Must be separate from the grammar's [Attribute](../grammar/attribute.md) since `ref struct`s currently are not allowed to implement interfaces.
+
+## Members
+
+### Constructors
+
+ | Name | Description |
+| --- | --- |
+| [SAttribute(string, string, AttributeType, AttributeValueType, Boolean, ContextRedirect)](#sattributestring-string-attributetype-attributevaluetype-bool-contextredirect) | Record implementation of a StarML [IAttribute](iattribute.md). | 
+| [SAttribute(Attribute)](#sattributeattribute) | Initializes a new [SAttribute](sattribute.md) from the data of a parsed attribute. | 
+
+### Properties
+
+ | Name | Description |
+| --- | --- |
+| [ContextRedirect](#contextredirect) | Specifies the redirect to use for a context binding, if applicable and if the `ValueType` is one of the context binding types. | 
+| [EqualityContract](#equalitycontract) |  | 
+| [IsNegated](#isnegated) | Whether the attribute has a negation. Validity and behavior depend on the specific attribute. | 
+| [Name](#name) | The attribute name. | 
+| [Type](#type) | The type of the attribute itself, defining how the `Name` should be interpreted. | 
+| [Value](#value) | The literal value text. | 
+| [ValueType](#valuetype) | The type of the value expression, defining how the `Value` should be interpreted. | 
+
+### Methods
+
+ | Name | Description |
+| --- | --- |
+| [AsArgument()](#asargument) | Creates a method argument that will receive the same value as this attribute when bound. | 
+| [WithNameAndType(string, AttributeType)](#withnameandtypestring-attributetype) | Creates a copy of this attribute with a different [Name](sattribute.md#name) and [Type](sattribute.md#type), and all other properties the same. | 
+
+## Details
+
+### Constructors
+
+#### SAttribute(string, string, AttributeType, AttributeValueType, bool, ContextRedirect)
+
+Record implementation of a StarML [IAttribute](iattribute.md).
+
+```cs
+public SAttribute(string Name, string Value, StardewUI.Framework.Grammar.AttributeType Type, StardewUI.Framework.Grammar.AttributeValueType ValueType, bool IsNegated, StardewUI.Framework.Dom.ContextRedirect ContextRedirect);
+```
+
+##### Parameters
+
+**`Name`** &nbsp; [string](https://learn.microsoft.com/en-us/dotnet/api/system.string)  
+The attribute name.
+
+**`Value`** &nbsp; [string](https://learn.microsoft.com/en-us/dotnet/api/system.string)  
+The literal value text.
+
+**`Type`** &nbsp; [AttributeType](../grammar/attributetype.md)  
+The type of the attribute itself, defining how the `Name` should be interpreted.
+
+**`ValueType`** &nbsp; [AttributeValueType](../grammar/attributevaluetype.md)  
+The type of the value expression, defining how the `Value` should be interpreted.
+
+**`IsNegated`** &nbsp; [Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean)  
+Whether the attribute has a negation. Validity and behavior depend on the specific attribute.
+
+**`ContextRedirect`** &nbsp; [ContextRedirect](contextredirect.md)  
+Specifies the redirect to use for a context binding, if applicable and if the `ValueType` is one of the context binding types.
+
+##### Remarks
+
+Must be separate from the grammar's [Attribute](../grammar/attribute.md) since `ref struct`s currently are not allowed to implement interfaces.
+
+-----
+
+#### SAttribute(Attribute)
+
+Initializes a new [SAttribute](sattribute.md) from the data of a parsed attribute.
+
+```cs
+public SAttribute(StardewUI.Framework.Grammar.Attribute attribute);
+```
+
+##### Parameters
+
+**`attribute`** &nbsp; [Attribute](../grammar/attribute.md)  
+The parsed attribute.
+
+-----
+
+### Properties
+
+#### ContextRedirect
+
+Specifies the redirect to use for a context binding, if applicable and if the `ValueType` is one of the context binding types.
+
+```cs
+public StardewUI.Framework.Dom.ContextRedirect ContextRedirect { get; set; }
+```
+
+##### Property Value
+
+[ContextRedirect](contextredirect.md)
+
+-----
+
+#### EqualityContract
+
+
+
+```cs
+protected System.Type EqualityContract { get; }
+```
+
+##### Property Value
+
+[Type](https://learn.microsoft.com/en-us/dotnet/api/system.type)
+
+-----
+
+#### IsNegated
+
+Whether the attribute has a negation. Validity and behavior depend on the specific attribute.
+
+```cs
+public bool IsNegated { get; set; }
+```
+
+##### Property Value
+
+[Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean)
+
+-----
+
+#### Name
+
+The attribute name.
+
+```cs
+public string Name { get; set; }
+```
+
+##### Property Value
+
+[string](https://learn.microsoft.com/en-us/dotnet/api/system.string)
+
+-----
+
+#### Type
+
+The type of the attribute itself, defining how the `Name` should be interpreted.
+
+```cs
+public StardewUI.Framework.Grammar.AttributeType Type { get; set; }
+```
+
+##### Property Value
+
+[AttributeType](../grammar/attributetype.md)
+
+-----
+
+#### Value
+
+The literal value text.
+
+```cs
+public string Value { get; set; }
+```
+
+##### Property Value
+
+[string](https://learn.microsoft.com/en-us/dotnet/api/system.string)
+
+-----
+
+#### ValueType
+
+The type of the value expression, defining how the `Value` should be interpreted.
+
+```cs
+public StardewUI.Framework.Grammar.AttributeValueType ValueType { get; set; }
+```
+
+##### Property Value
+
+[AttributeValueType](../grammar/attributevaluetype.md)
+
+-----
+
+### Methods
+
+#### AsArgument()
+
+Creates a method argument that will receive the same value as this attribute when bound.
+
+```cs
+public StardewUI.Framework.Dom.SArgument AsArgument();
+```
+
+##### Returns
+
+[SArgument](sargument.md)
+
+  The converted argument.
+
+-----
+
+#### WithNameAndType(string, AttributeType)
+
+Creates a copy of this attribute with a different [Name](sattribute.md#name) and [Type](sattribute.md#type), and all other properties the same.
+
+```cs
+public StardewUI.Framework.Dom.SAttribute WithNameAndType(string name, StardewUI.Framework.Grammar.AttributeType type);
+```
+
+##### Parameters
+
+**`name`** &nbsp; [string](https://learn.microsoft.com/en-us/dotnet/api/system.string)  
+The new attribute name.
+
+**`type`** &nbsp; [AttributeType](../grammar/attributetype.md)  
+The new attribute type.
+
+##### Returns
+
+[SAttribute](sattribute.md)
+
+  The renamed attribute.
+
+-----
+

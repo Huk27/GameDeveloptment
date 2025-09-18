@@ -1,0 +1,18 @@
+﻿{
+    /*********
+    ** In-game UI
+    *********/
+    "labels.single-price": "Egységár",
+    "labels.stack-price": "Teljes ár",
+
+
+    /*********
+    ** Generic Mod Config Menu UI
+    *********/
+    "config.show-when.name": "Ár megjelenítése",
+    "config.show-when.desc": "Mikor legyen látható az eladási ár.",
+
+    "config.show-when.Always": "Mindig",
+    "config.show-when.BeforePriceCatalogue": "Az árkatalógus feloldása előtt",
+    "config.show-when.AfterPriceCatalogue": "Az árkatalógus feloldása után"
+}

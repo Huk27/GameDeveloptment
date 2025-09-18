@@ -1,0 +1,27 @@
+{
+  /*
+   | This file is automatically updated by ModManifestBuilder
+   | when the project is compiled.
+   | 
+   | Changes made to this file may be overwritten.
+   | 
+   */
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "focustense.StardewUITestAddon",
+  "Name": "Stardew UI Test Addon",
+  "Author": "focustense",
+  "Version": "0.6.1",
+  "Description": "Example add-on mod for Stardew UI.",
+  "MinimumApiVersion": "4.1.10",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "StardewUITestAddon.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "focustense.StardewUI",
+      "MinimumVersion": "0.6.1"
+    }
+  ],
+  "UpdateKeys": [
+    "GitHub:focustense/StardewUI"
+  ]
+}

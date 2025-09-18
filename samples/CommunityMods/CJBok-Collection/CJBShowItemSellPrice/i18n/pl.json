@@ -1,0 +1,18 @@
+﻿{
+    /*********
+    ** In-game UI
+    *********/
+    "labels.single-price": "Pojedynczo",
+    "labels.stack-price": "Całość",
+
+
+    /*********
+    ** Generic Mod Config Menu UI
+    *********/
+    "config.show-when.name": "Pokaż cenę",
+    "config.show-when.desc": "Wybierz, kiedy interfejs ceny sprzedaży powinien być wyświetlany.",
+
+    "config.show-when.Always": "Zawsze pokazuj",
+    "config.show-when.BeforePriceCatalogue": "Przed odblokowaniem katalogu cen",
+    "config.show-when.AfterPriceCatalogue": "Po odblokowaniu katalogu cen"
+}
