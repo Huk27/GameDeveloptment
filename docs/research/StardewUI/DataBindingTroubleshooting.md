@@ -161,7 +161,7 @@ StardewUI.Framework.Descriptors.DescriptorException: Type PlayerInfoViewModel do
 - **예제 우선 참고**: StardewUI 공식 예제에서 `*if={IsEmpty}` 같은 패턴 확인
 
 ## 참고 자료
-- MatrixFishingUI: `ExampleMods/MatrixFishingUI/MatrixFishingUI/Framework/Fish/FishMenuData.cs`
-- PenPals: `ExampleMods/PenPals/UI/GiftMailViewModel.cs`
-- StardewUI 문서: `ExampleMods/StardewUI/Docs/framework/binding-context.md`
-- StardewUI 조건부 렌더링 예제: `ExampleMods/StardewUI/TestMod/assets/views/Example-Tempering.sml`
+- MatrixFishingUI: `samples/MatrixFishingUI/MatrixFishingUI/Framework/Fish/FishMenuData.cs` (샘플 다운로드 필요)
+- PenPals: 원본 저장소 참고 (현재 워크스페이스에 포함되지 않음)
+- StardewUI 문서: `libraries/StardewUI/Docs/framework/binding-context.md`
+- StardewUI 조건부 렌더링 예제: `libraries/StardewUI/TestMod/assets/views/Example-Tempering.sml`

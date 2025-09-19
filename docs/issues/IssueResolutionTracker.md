@@ -24,7 +24,7 @@
 - **발생 일시**: 2024년 7월 25일
 - **문제**: UI에 `{PropertyName}` 문자열이 그대로 표시됨
 - **해결**: One-time binding `{:PropertyName}` 사용, Computed Property에 PropertyChanged 이벤트 발생
-- **상세 기록**: `Documentation/StardewUI/DataBindingTroubleshooting.md`
+- **상세 기록**: `docs/research/StardewUI/DataBindingTroubleshooting.md`
 
 #### 2. 조건부 렌더링 문법 오류 (SimpleUI 모드)
 - **발생 일시**: 2024년 7월 25일
@@ -36,7 +36,7 @@
 - **발생 일시**: 2024년 7월 25일
 - **문제**: 탭 전환 시 콘텐츠가 표시되지 않음
 - **해결**: `OnTabActivated` 메서드에서 모든 조건부 프로퍼티에 PropertyChanged 이벤트 발생
-- **참고 예제**: `ExampleMods/StardewUI/TestMod/Examples/TabsViewModel.cs`
+- **참고 예제**: `libraries/StardewUI/TestMod/Examples/TabsViewModel.cs`
 
 #### 4. StarML 동적 레이아웃 바인딩 오류 (FarmStatistics 모드)
 - **발생 일시**: 2024년 7월 25일
@@ -129,20 +129,20 @@
 ## 📚 참고 자료 및 예제 모드
 
 ### 🎯 우선 참고 순서
-1. **ExampleMods**: 실제 작동하는 모드들 (최우선)
+1. **samples**: 실제 작동하는 모드들 (최우선)
 2. **원본 소스코드**: 라이브러리 공식 소스코드
-3. **Documentation**: 개발 가이드 문서들 (참고용)
+3. **docs/**: 개발 가이드 문서들 (참고용)
 
 ### 📁 주요 예제 모드
-- **StardewUI**: `ExampleMods/StardewUI/TestMod/` - 공식 예제
-- **MatrixFishingUI**: `ExampleMods/MatrixFishingUI/` - 실제 사용 모드
-- **PenPals**: `ExampleMods/PenPals/` - 실제 사용 모드
-- **Ferngill Simple Economy**: `ExampleMods/Ferngill-Simple-Economy/` - 복잡한 UI 구현
+- **StardewUI**: `libraries/StardewUI/TestMod/` - 공식 예제
+- **MatrixFishingUI**: `samples/MatrixFishingUI/` - 샘플 다운로드 필요 (현재 비어 있음)
+- **PenPals**: 원본 저장소 참고 (현재 워크스페이스에 포함되지 않음)
+- **Ferngill Simple Economy**: `samples/Ferngill-Simple-Economy/` - 샘플 다운로드 필요 (현재 비어 있음)
 
 ### 📖 문서 위치
-- **StardewUI 데이터 바인딩**: `Documentation/StardewUI/DataBindingTroubleshooting.md`
-- **모드 개발 가이드**: `Documentation/ModDevelopmentDocument/`
-- **통합 이슈 추적**: `Documentation/IssueResolutionTracker.md` (현재 파일)
+- **StardewUI 데이터 바인딩**: `docs/research/StardewUI/DataBindingTroubleshooting.md`
+- **모드 개발 가이드**: `docs/design/`
+- **통합 이슈 추적**: `docs/issues/IssueResolutionTracker.md` (현재 파일)
 
 ---
 
@@ -166,7 +166,7 @@
 - [ ] C# 코드 변경 시 게임 재시작, .sml 파일 변경 시 Hot Reloading
 
 ### 🎯 문제 해결 우선순위
-1. **ExampleMods 확인**: 비슷한 기능을 구현한 모드 찾기
+1. **samples 확인**: 비슷한 기능을 구현한 모드 찾기
 2. **공식 문서 참고**: 라이브러리 공식 문서 확인
 3. **이슈 기록 검색**: 이 파일에서 관련 이슈 해결 방법 확인
 4. **단계별 디버깅**: 문제를 작은 단위로 나누어 해결
@@ -295,7 +295,7 @@ public void OnTabActivated(string tabName)
 
 ### 핵심 원칙 (공식 예제 분석 후 수정)
 
-1. **공식 예제 우선**: 추측하지 말고 `ExampleMods/StardewUI/TestMod/Examples/` 참고 필수
+1. **공식 예제 우선**: 추측하지 말고 `libraries/StardewUI/TestMod/Examples/` 참고 필수
 2. **올바른 바인딩 구문**: `{<>PropertyName}` (공식), `{PropertyName}` (직접), `*repeat={Collection}` (: 없이)
 3. **TabData 구조**: `Name` (string), `Sprite` (Tuple<Texture2D, Rectangle>), `Active` (bool with INotifyPropertyChanged)
 4. **데이터 모델 일치**: UI에서 참조하는 모든 속성이 ViewModel에 정의되어야 함
@@ -371,10 +371,10 @@ System.NotSupportedException: No value converter registered for String -> Sprite
 1. **타입 일치**: UI 속성의 요구 타입과 바인딩 데이터 타입이 일치해야 함
 2. **변환기 확인**: 자동 타입 변환이 지원되는지 확인 필요
 3. **대안 고려**: 복잡한 바인딩 대신 간단한 해결책 우선 고려
-4. **예제 참고**: ExampleMods에서 비슷한 사용 사례 확인
+4. **예제 참고**: samples에서 비슷한 사용 사례 확인
 
 ### 참고 자료
-- **ExampleMods sprite 사용법**:
+- **samples sprite 사용법**:
   - 정적: `sprite={@Mods/StardewUI/Sprites/Tab}`
   - 객체: `sprite={ItemData}` (실제 게임 객체)
   - 바인딩: `sprite={:ParsedFish}` (적절한 타입의 속성)
@@ -433,7 +433,7 @@ StardewUI.Framework.Descriptors.DescriptorException: Type Label does not have a 
 
 1. **요소별 속성 확인**: 각 UI 요소가 지원하는 속성을 정확히 파악
 2. **바인딩 구문 검증**: `{<`, `{.}`, `{<>}` 등은 모두 잘못된 구문
-3. **예제 참고**: ExampleMods에서 해당 요소의 올바른 사용법 확인
+3. **예제 참고**: samples에서 해당 요소의 올바른 사용법 확인
 4. **정렬 처리**: 자식 요소 정렬은 부모 컨테이너의 `*-content-alignment` 속성 사용
 
 ### StardewUI 요소별 정렬 속성 정리
@@ -451,7 +451,7 @@ StardewUI.Framework.Descriptors.DescriptorException: Type Label does not have a 
 - 자식 요소들의 정렬 제어
 
 ### 참고 자료
-- **ExampleMods에서 확인된 사용법**:
+- **samples에서 확인된 사용법**:
   - `<image vertical-alignment="middle" />` ✅
   - `<label text={Property} />` ✅  
   - `<lane vertical-content-alignment="middle">` ✅
@@ -471,7 +471,7 @@ StardewUI.Framework.Descriptors.DescriptorException: Type Label does not have a 
 - 실제로는 `{<>PropertyName}` 구문이 공식 예제에서 사용됨
 
 ### 발견 과정
-1. **공식 예제 발견**: `ExampleMods/StardewUI/TestMod/assets/views/Example-Tabs.sml`
+1. **공식 예제 발견**: `libraries/StardewUI/TestMod/assets/views/Example-Tabs.sml`
 2. **실제 구문 확인**: `active={<>Active}`, `*repeat={Tabs}`, `sprite={Sprite}`
 3. **TabsViewModel.cs 분석**: `Tuple<Texture2D, Rectangle>` 타입 사용 확인
 
@@ -480,7 +480,7 @@ StardewUI.Framework.Descriptors.DescriptorException: Type Label does not have a 
 #### 1. 공식 예제 우선 원칙 확립
 ```
 1. 추측 금지: 모든 구문은 공식 예제에서 확인 후 사용
-2. 예제 위치: ExampleMods/StardewUI/TestMod/Examples/
+2. 예제 위치: libraries/StardewUI/TestMod/Examples/
 3. 검증 순서: 공식 예제 → 소스코드 → 문서 → 추측(금지)
 ```
 
@@ -516,8 +516,8 @@ internal partial class TabData(string name, Texture2D texture, Rectangle sourceR
 4. **이슈 트래킹 수정**: 잘못된 정보는 즉시 수정하여 향후 참고 시 오류 방지
 
 ### 참고 자료
-- **공식 예제**: `ExampleMods/StardewUI/TestMod/assets/views/Example-Tabs.sml`
-- **ViewModel**: `ExampleMods/StardewUI/TestMod/Examples/TabsViewModel.cs`
+- **공식 예제**: `libraries/StardewUI/TestMod/assets/views/Example-Tabs.sml`
+- **ViewModel**: `libraries/StardewUI/TestMod/Examples/TabsViewModel.cs`
 - **수정된 파일들**: 
   - `FarmStatisticsViewModel.cs` - TabData 구조 공식 예제에 맞춤
   - `PlayerInfoViewModel.cs` - 동일하게 수정
